@@ -132,7 +132,7 @@ class RecordRateController extends RateInterface {
      */
     async applyRateControl() {
         await this.recordedRateController.applyRateControl();
-        this.records[this.stats.getTotalSubmittedTx()] = Date.now() - this.stats.getRoundStartTime();
+        this.records[this.stats.getTotalSubmittedTx() - 1] = Date.now() - this.stats.getRoundStartTime();
     }
 
     /**

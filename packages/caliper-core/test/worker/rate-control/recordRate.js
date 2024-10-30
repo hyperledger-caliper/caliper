@@ -17,15 +17,22 @@
 const mockery = require('mockery');
 const path = require('path');
 const RecordRate = require('../../../lib/worker/rate-control/recordRate');
+const fs = require('fs');
 const TestMessage = require('../../../lib/common/messages/testMessage');
 const MockRate = require('./mockRate');
 const TransactionStatisticsCollector = require('../../../lib/common/core/transaction-statistics-collector');
+const util = require('../../../lib/common/utils/caliper-utils');
+const logger = util.getLogger('record-rate-controller');
 
 const chai = require('chai');
 chai.should();
 const sinon = require('sinon');
 
 describe('RecordRate controller', () => {
+    let msgContent;
+    let stubStatsCollector;
+    let sandbox;
+
     before(() => {
         mockery.enable({
             warnOnReplace: false,
@@ -34,25 +41,29 @@ describe('RecordRate controller', () => {
         });
 
         mockery.registerMock(path.join(__dirname, '../../../lib/worker/rate-control/noRate.js'), MockRate);
+        sandbox = sinon.createSandbox();
     });
 
     after(() => {
         mockery.deregisterAll();
         mockery.disable();
+        if (fs.existsSync('../tx_records_client0_round0.txt')) {
+            fs.unlinkSync('../tx_records_client0_round0.txt');
+        }
     });
 
-    it('should apply rate control to the recorded rate controller', async () => {
-        const msgContent = {
+    beforeEach(() => {
+        msgContent = {
             label: 'test',
             rateControl: {
-                "type": "record-rate",
-                "opts": {
-                    "rateController": {
-                        "type": "zero-rate"
+                type: 'record-rate',
+                opts: {
+                    rateController: {
+                        type: 'zero-rate'
                     },
-                    "pathTemplate": "../tx_records_client<C>_round<R>.txt",
-                    "outputFormat": "TEXT",
-                    "logEnd": true
+                    pathTemplate: '../tx_records_client<C>_round<R>.txt',
+                    outputFormat: 'TEXT',
+                    logEnd: true
                 }
             },
             workload: {
@@ -63,42 +74,263 @@ describe('RecordRate controller', () => {
             totalWorkers: 2
         };
 
-        const testMessage = new TestMessage('test', [], msgContent);
-        const stubStatsCollector = sinon.createStubInstance(TransactionStatisticsCollector);
-        const rateController = RecordRate.createRateController(testMessage, stubStatsCollector, 0);
-        const mockRate = MockRate.createRateController();
-        mockRate.reset();
-        mockRate.isApplyRateControlCalled().should.equal(false);
-        await rateController.applyRateControl();
-        mockRate.isApplyRateControlCalled().should.equal(true);
+        stubStatsCollector = new TransactionStatisticsCollector();
+        stubStatsCollector.getTotalSubmittedTx = sandbox.stub();
     });
 
-    it('should throw an error if the rate controller to record is unknown', async () => {
-        const msgContent = {
-            label: 'test',
-            rateControl: {
-                "type": "record-rate",
-                "opts": {
-                    "rateController": {
-                        "type": "nonexistent-rate"
-                    },
-                    "pathTemplate": "../tx_records_client<C>_round<R>.txt",
-                    "outputFormat": "TEXT",
-                    "logEnd": true
-                }
-            },
-            workload: {
-                module: 'module.js'
-            },
-            testRound: 0,
-            txDuration: 250,
-            totalWorkers: 2
-        };
-        const testMessage = new TestMessage('test', [], msgContent);
+    afterEach(() => {
+        sandbox.restore();
+    });
 
-        const stubStatsCollector = sinon.createStubInstance(TransactionStatisticsCollector);
-        (() => {
-            RecordRate.createRateController(testMessage, stubStatsCollector, 0)
-        }).should.throw(/Module "nonexistent-rate" could not be loaded/);
+    describe('Export Formats', () => {
+        it('should default outputFormat to TEXT if undefined', () => {
+            msgContent.rateControl.opts.outputFormat = undefined;
+            const testMessage = new TestMessage('test', [], msgContent);
+            const controller = RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+            controller.outputFormat.should.equal('TEXT');
+        });
+
+
+        it('should set outputFormat to TEXT if invalid format is provided', () => {
+            msgContent.rateControl.opts.outputFormat = 'INVALID_FORMAT';
+            const testMessage = new TestMessage('test', [], msgContent);
+            const controller = RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+
+            controller.outputFormat.should.equal('TEXT');
+        });
+
+        it('should export records to text format', async () => {
+            const testMessage = new TestMessage('test', [], msgContent);
+            const controller = RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+            sinon.stub(controller.recordedRateController, 'end').resolves();
+
+            controller.records = [100, 200, 300];
+            const fsWriteSyncStub = sandbox.stub(fs, 'writeFileSync');
+            const fsAppendSyncStub = sandbox.stub(fs, 'appendFileSync');
+
+            await controller.end();
+
+            sinon.assert.calledOnce(fsWriteSyncStub);
+            sinon.assert.calledThrice(fsAppendSyncStub);
+
+            // Verify the content written to the file
+            sinon.assert.calledWith(fsWriteSyncStub, sinon.match.string, '', 'utf-8');
+            sinon.assert.calledWith(fsAppendSyncStub.getCall(0), sinon.match.string, '100\n');
+            sinon.assert.calledWith(fsAppendSyncStub.getCall(1), sinon.match.string, '200\n');
+            sinon.assert.calledWith(fsAppendSyncStub.getCall(2), sinon.match.string, '300\n');
+
+
+            fsWriteSyncStub.restore();
+            fsAppendSyncStub.restore();
+        });
+
+        it('should export records to binary big endian format', async () => {
+            const msgContent = {
+                label: 'test',
+                rateControl: {
+                    type: 'record-rate',
+                    opts: {
+                        rateController: {
+                            type: 'zero-rate'
+                        },
+                        pathTemplate: '../tx_records_client<C>_round<R>.txt',
+                        outputFormat: 'BIN_BE'
+                    }
+                },
+                testRound: 0,  // Ensure roundIndex is set
+                txDuration: 250,
+                totalWorkers: 2
+            };
+            const testMessage = new TestMessage('test', [], msgContent);
+            const controller = RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+            sinon.stub(controller.recordedRateController, 'end').resolves();
+
+            controller.records = [100, 200, 300];
+            const fsWriteSyncStub = sandbox.stub(fs, 'writeFileSync');
+
+            await controller.end();
+
+            sinon.assert.calledOnce(fsWriteSyncStub);
+            const buffer = fsWriteSyncStub.getCall(0).args[1];
+            buffer.readUInt32BE(0).should.equal(3);
+            buffer.readUInt32BE(4).should.equal(100);
+            buffer.readUInt32BE(8).should.equal(200);
+            buffer.readUInt32BE(12).should.equal(300);
+
+            fsWriteSyncStub.restore();
+        });
+
+        it('should export records to binary little endian format', async () => {
+            msgContent.rateControl.opts.outputFormat = 'BIN_LE';
+            const testMessage = new TestMessage('test', [], msgContent);
+            const controller = RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+
+            sandbox.stub(controller.recordedRateController, 'end').resolves();
+
+            controller.records = [100, 200, 300];
+            const fsWriteSyncStub = sandbox.stub(fs, 'writeFileSync');
+
+            await controller.end();
+
+            sinon.assert.calledOnce(fsWriteSyncStub);
+            const buffer = fsWriteSyncStub.getCall(0).args[1];
+            buffer.readUInt32LE(0).should.equal(3);
+            buffer.readUInt32LE(4).should.equal(100);
+            buffer.readUInt32LE(8).should.equal(200);
+            buffer.readUInt32LE(12).should.equal(300);
+
+            fsWriteSyncStub.restore();
+        });
+        it('should export to text format when output format is TEXT', async () => {
+            const testMessage = new TestMessage('test', [], msgContent);
+            const controller = RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+
+            const mockController = {
+                end: sinon.stub().resolves(),
+                applyRateControl: sinon.stub().resolves(),
+            };
+            controller.recordedRateController.controller = mockController;
+
+            const exportToTextSpy = sinon.spy(controller, '_exportToText');
+            const exportToBinaryLittleEndianSpy = sinon.spy(controller, '_exportToBinaryLittleEndian');
+            const exportToBinaryBigEndianSpy = sinon.spy(controller, '_exportToBinaryBigEndian');
+
+            await controller.end();
+
+            sinon.assert.calledOnce(exportToTextSpy);
+            sinon.assert.notCalled(exportToBinaryLittleEndianSpy);
+            sinon.assert.notCalled(exportToBinaryBigEndianSpy);
+            sinon.assert.notCalled(logger.error);
+
+            exportToTextSpy.restore();
+            exportToBinaryLittleEndianSpy.restore();
+            exportToBinaryBigEndianSpy.restore();
+        });
+
+        it('should export to binary little endian format when output format is BIN_LE', async () => {
+            msgContent.rateControl.opts.outputFormat = 'BIN_LE';
+            const testMessage = new TestMessage('test', [], msgContent);
+            const controller = RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+
+            const mockController = {
+                end: sinon.stub().resolves(),
+                applyRateControl: sinon.stub().resolves(),
+            };
+            controller.recordedRateController.controller = mockController;
+
+            const exportToTextSpy = sinon.spy(controller, '_exportToText');
+            const exportToBinaryLittleEndianSpy = sinon.spy(controller, '_exportToBinaryLittleEndian');
+            const exportToBinaryBigEndianSpy = sinon.spy(controller, '_exportToBinaryBigEndian');
+
+            await controller.end();
+
+            sinon.assert.notCalled(exportToTextSpy);
+            sinon.assert.calledOnce(exportToBinaryLittleEndianSpy);
+            sinon.assert.notCalled(exportToBinaryBigEndianSpy);
+            sinon.assert.notCalled(logger.error);
+
+            exportToTextSpy.restore();
+            exportToBinaryLittleEndianSpy.restore();
+            exportToBinaryBigEndianSpy.restore();
+        });
+
+
+        it('should export to binary big endian format when output format is BIN_BE', async () => {
+            msgContent.rateControl.opts.outputFormat = 'BIN_BE';
+            const testMessage = new TestMessage('test', [], msgContent);
+            const controller = RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+
+            const mockController = {
+                end: sinon.stub().resolves(),
+                applyRateControl: sinon.stub().resolves(),
+            };
+            controller.recordedRateController.controller = mockController;
+
+            const exportToTextSpy = sinon.spy(controller, '_exportToText');
+            const exportToBinaryLittleEndianSpy = sinon.spy(controller, '_exportToBinaryLittleEndian');
+            const exportToBinaryBigEndianSpy = sinon.spy(controller, '_exportToBinaryBigEndian');
+
+            await controller.end();
+
+            sinon.assert.notCalled(exportToTextSpy);
+            sinon.assert.notCalled(exportToBinaryLittleEndianSpy);
+            sinon.assert.calledOnce(exportToBinaryBigEndianSpy);
+            sinon.assert.notCalled(logger.error);
+
+            exportToTextSpy.restore();
+            exportToBinaryLittleEndianSpy.restore();
+            exportToBinaryBigEndianSpy.restore();
+        });
+
+        it('should throw an error if pathTemplate is undefined', () => {
+            msgContent.rateControl.opts.pathTemplate = undefined;
+            const testMessage = new TestMessage('test', [], msgContent);
+
+            (() => {
+                RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+            }).should.throw('The path to save the recording to is undefined');
+        });
+    });
+
+    describe('When Applying Rate Control', () => {
+        it('should apply rate control to the recorded rate controller', async () => {
+            const testMessage = new TestMessage('test', [], msgContent);
+            const rateController = RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+            const mockRate = MockRate.createRateController();
+            mockRate.reset();
+            mockRate.isApplyRateControlCalled().should.equal(false);
+            await rateController.applyRateControl();
+            mockRate.isApplyRateControlCalled().should.equal(true);
+        });
+
+        it('should replace path template placeholders for various worker and round indices', () => {
+            const testCases = [
+                { testRound: 0, workerIndex: 0, expectedPath: '../tx_records_client0_round0.txt' },
+                { testRound: 1, workerIndex: 2, expectedPath: '../tx_records_client2_round1.txt' },
+                { testRound: 5, workerIndex: 3, expectedPath: '../tx_records_client3_round5.txt' },
+                { testRound: 10, workerIndex: 7, expectedPath: '../tx_records_client7_round10.txt' },
+            ];
+
+            testCases.forEach(({ testRound, workerIndex, expectedPath }) => {
+                const content = JSON.parse(JSON.stringify(msgContent));
+                content.testRound = testRound;
+                const testMessage = new TestMessage('test', [], content);
+                const controller = RecordRate.createRateController(testMessage, stubStatsCollector, workerIndex);
+                controller.pathTemplate.should.equal(util.resolvePath(expectedPath));
+            });
+        });
+
+        it('should throw an error if the rate controller to record is unknown', async () => {
+            msgContent.rateControl.opts.rateController.type = 'nonexistent-rate';
+            msgContent.rateControl.opts.logEnd = true;
+            const testMessage = new TestMessage('test', [], msgContent);
+
+            (() => {
+                RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+            }).should.throw(/Module "nonexistent-rate" could not be loaded/);
+        });
+
+        it('should throw an error if rateController is undefined', () => {
+            msgContent.rateControl.opts.rateController = undefined;
+            const testMessage = new TestMessage('test', [], msgContent);
+
+            (() => {
+                RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+            }).should.throw('The rate controller to record is undefined');
+        });
+    });
+
+    describe('When Creating a RecordRate Controller', () => {
+        it('should initialize records array if the number of transactions is provided', () => {
+            const testMessage = new TestMessage('test', [], msgContent);
+            sinon.stub(testMessage, 'getNumberOfTxs').returns(5);
+
+            const controller = RecordRate.createRateController(testMessage, stubStatsCollector, 0);
+
+            controller.records.should.be.an('array').that.has.lengthOf(5);
+            stubStatsCollector.getTotalSubmittedTx.returns(1);
+            controller.records.every(record => record.should.equal(0));
+        });
+
     });
 });

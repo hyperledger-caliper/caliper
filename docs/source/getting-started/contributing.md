@@ -2,7 +2,7 @@
 
 Welcome to Hyperledger Caliper project, we are excited about the prospect of you contributing.
 
-This guideline intends to make contribtuions to Caliper easier by:
+This guideline intends to make contributions to Caliper easier by:
 
 * presenting a simple development workflow for contributors to follow;
 * and providing a high-level description of the repository components.

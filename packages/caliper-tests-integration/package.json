@@ -19,7 +19,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/hyperledger/caliper.git"
+        "url": "git+https://github.com/hyperledger-caliper/caliper.git"
     },
     "keywords": [
         "blockchain",
@@ -28,9 +28,9 @@
     "author": "Hyperledger Caliper",
     "license": "Apache-2.0",
     "bugs": {
-        "url": "https://github.com/hyperledger/caliper/issues"
+        "url": "https://github.com/hyperledger-caliper/caliper/issues"
     },
-    "homepage": "https://github.com/hyperledger/caliper#readme",
+    "homepage": "https://github.com/hyperledger-caliper/caliper#readme",
     "devDependencies": {
         "license-check-and-add": "2.3.6"
     },
@@ -55,19 +55,6 @@
             "scripts/storage",
             "log",
             ".DS_Store",
-            "fabric_docker_distributed_tests/.gitignore",
-            "fabric_docker_distributed_tests/config/.gitignore",
-            "fabric_docker_distributed_tests/config/bin",
-            "fabric_docker_distributed_tests/config/config",
-            "fabric_docker_distributed_tests/config/crypto-config",
-            "fabric_docker_distributed_tests/mosquitto",
-            "fabric_docker_distributed_tests/node_modules",
-            "fabric_docker_local_tests/.gitignore",
-            "fabric_docker_local_tests/config/.gitignore",
-            "fabric_docker_local_tests/config/bin",
-            "fabric_docker_local_tests/config/config",
-            "fabric_docker_local_tests/config/crypto-config",
-            "fabric_docker_local_tests/node_modules",
             "fabric_tests/.gitignore",
             "fabric_tests/config/.gitignore",
             "fabric_tests/config/bin",

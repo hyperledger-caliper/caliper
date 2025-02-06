@@ -66,8 +66,7 @@ class EthereumConnector extends ConnectorBase {
     checkConfig(ethereumConfig) {
         if (!ethereumConfig.url) {
             throw new Error(
-                'No URL given to access the Ethereum SUT. Please check your network configuration. ' +
-                'Please see https://hyperledger.github.io/caliper/v0.3/ethereum-config/ for more info.'
+                'No URL given to access the Ethereum SUT. Please check your network configuration.'
             );
         }
 
@@ -75,7 +74,7 @@ class EthereumConnector extends ConnectorBase {
             throw new Error(
                 'Ethereum benchmarks must not use http(s) RPC connections, as there is no way to guarantee the ' +
                 'order of submitted transactions when using other transports. For more information, please see ' +
-                'https://github.com/hyperledger/caliper/issues/776#issuecomment-624771622'
+                'https://github.com/hyperledger-caliper/caliper/issues/776#issuecomment-624771622'
             );
         }
 

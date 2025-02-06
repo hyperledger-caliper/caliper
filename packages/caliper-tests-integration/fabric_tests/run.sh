@@ -21,7 +21,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${DIR}"
 
 if [[ ! -d "fabric-samples" ]]; then
-  curl -sSL -k https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/bootstrap.sh | bash -s -- 2.4.3
+  curl -sSL -k https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/bootstrap.sh | bash -s -- 2.5.9
 fi
 
 # back to this dir
@@ -55,6 +55,8 @@ dispose () {
 
 # Create Fabric network
 pushd ${TEST_NETWORK_DIR}
+# patch network.sh to workaround bug in fabric-samples script.
+sed -i "s|\[\[ \$len -lt 4 \]\]|\[\[ \$len -lt 3 \]\]|g" network.sh
 ./network.sh up -s couchdb
 ./network.sh createChannel -c mychannel
 ./network.sh createChannel -c yourchannel
@@ -110,10 +112,10 @@ if [[ ${rc} != 0 ]]; then
     exit ${rc};
 fi
 
-# BIND with 2.4 SDK (which is the same as 2.5, 3, fabric-gateway), using the package dir as CWD
+# BIND with gateway SDK (which is the same as 2.4, 2.5, 3), using the package dir as CWD
 # Note: do not use env variables for unbinding settings, as subsequent launch calls will pick them up and bind again
-# Note: Fabric 2.4 binding is NOT cached in CI. This binding is lightweight so doesn't take much time and allows the 2.4 binding to be modified in the config.yaml binding file
-export FABRIC_VERSION=2.4
+# Note: Fabric gateway binding is NOT cached in CI. This binding is lightweight so doesn't take much time and allows the gateway binding to be modified in the config.yaml binding file
+export FABRIC_VERSION=gateway
 export NODE_PATH="$SUT_DIR/uncached/v$FABRIC_VERSION/node_modules"
 if [[ "${BIND_IN_PACKAGE_DIR}" = "true" ]]; then
     mkdir -p $SUT_DIR/uncached/v$FABRIC_VERSION

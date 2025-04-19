@@ -20,7 +20,6 @@ const utils = require('./../utils/cmdutils');
 
 const packages = [
     'caliper-core',
-    'caliper-ethereum',
     'caliper-fabric',
     'caliper-cli',
     'generator-caliper'

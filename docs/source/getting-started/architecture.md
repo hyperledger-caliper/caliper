@@ -27,7 +27,6 @@ The content of the network configuration file is SUT-specific. The file usually 
 
 For the exact structure of the network configuration files, refer to the corresponding SUT connector documentations (we will discuss connectors a bit later on this page):
 
-- [Hyperledger Besu & Ethereum](../connectors/ethereum-config.md)
 - [Hyperledger Fabric](../connectors/fabric-config.md)
 
 ### Workload modules

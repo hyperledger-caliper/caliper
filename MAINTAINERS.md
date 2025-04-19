@@ -39,7 +39,6 @@ The following is a list of packages and codeowners with familiarity in the area
 | Caliper cli               | A Klenik, D Kelsey |
 | Caliper core              | A Klenik, D Kelsey |
 | Caliper publish           | A Klenik, D Kelsey |
-| Caliper ethereum          | A Klenik |
 | Caliper fabric            | A Klenik, D Kelsey |
 | Caliper generator         | D Kelsey |
 

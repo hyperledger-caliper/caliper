@@ -37,7 +37,6 @@
     "dependencies": {
         "@hyperledger/caliper-cli": "0.6.1-unstable",
         "@hyperledger/caliper-core": "0.6.1-unstable",
-        "@hyperledger/caliper-ethereum": "0.6.1-unstable",
         "@hyperledger/caliper-fabric": "0.6.1-unstable",
         "yeoman-generator": "4.7.2",
         "yosay": "^2.0.1"
@@ -61,12 +60,6 @@
             "fabric_tests/config/config",
             "fabric_tests/config/crypto-config",
             "fabric_tests/mosquitto",
-            "ethereum_tests/.gitignore",
-            "ethereum_tests/config/data",
-            "ethereum_tests/config/keys",
-            "besu_tests/.gitignore",
-            "besu_tests/config/data",
-            "besu_tests/config/keys",
             "generator_tests/.gitignore",
             "generator_tests/fabric/.gitignore",
             "generator_tests/fabric/config/.gitignore",

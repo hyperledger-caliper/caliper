@@ -145,7 +145,6 @@ nav:
     - Declarative Workloads: concepts/declarative-workload-module.md
   - Connectors:
     - Fabric: connectors/fabric-config.md
-    - Ethereum: connectors/ethereum-config.md
     - Writing Connectors: connectors/writing-connectors.md
   - Tutorials:
     - Tutorials: tutorial/index.md

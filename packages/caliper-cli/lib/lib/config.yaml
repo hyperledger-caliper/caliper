@@ -47,24 +47,8 @@ sut:
             packages: ['fabric-network@2.2.20']
         2.2.20: *fabric-sdk-v2
         2.4: &fabric-gateway
-            packages: ['@hyperledger/fabric-gateway@1.5.1', '@grpc/grpc-js@1.11.1']
+            packages: ['@hyperledger/fabric-gateway@1.7.1', '@grpc/grpc-js@1.13.1']
         2.5: *fabric-gateway
         3: *fabric-gateway
         fabric-gateway: *fabric-gateway
         gateway: *fabric-gateway
-
-    ethereum:
-        1.2.1:
-            packages: ['web3@1.2.2']
-        1.3: &ethereum-latest
-            packages: ['web3@1.3.0']
-        latest: *ethereum-latest
-
-    besu:
-        1.3.2:
-            packages: ['web3@1.3.0']
-        1.3:
-            packages: ['web3@1.3.0']
-        1.4: &besu-latest
-            packages: ['web3@1.3.0']
-        latest: *besu-latest

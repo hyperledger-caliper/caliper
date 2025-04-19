@@ -6,8 +6,6 @@ Caliper is a blockchain performance benchmark framework, which allows users to t
 
 Currently supported blockchain solutions:
 
-- [Hyperledger Besu](https://github.com/hyperledger/besu)
-- [Ethereum](https://github.com/ethereum/)
 - [Hyperledger Fabric](https://github.com/hyperledger/fabric)
 
 ## Supported Performance Metrics

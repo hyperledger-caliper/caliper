@@ -155,7 +155,7 @@ The connector must expose the following events with names matching the defined [
 
 - **Description** The event must be raised when one or more requests are fully processed by the SUT (i.e., the connector received the results).
 - **Parameters**
-    - *results (TxStatus|TxStatus[])* One or more request execution result gathered by the connector.   
+    - *results (TxStatus|TxStatus[])* One or more request execution result gathered by the connector.
 
 #### Optional base class
 
@@ -207,7 +207,7 @@ The following is a possible implementation of a factory method for our `fast-led
     }
 
     module.exports.ConnectorFactory = ConnectorFactory;
-```    
+```
 
 ### The network configuration file
 
@@ -279,7 +279,7 @@ sut:
           CXXFLAGS: '-Wno-error=class-memaccess'
           CFLAGS: '-Wno-error=class-memaccess'
         args: '--build-from-source'
-```        
+```
 
 The `settings` attribute is actually an array of potentially applicable settings. Caliper will process them in order, and picks the first settings object whose regular expression (`versionRegexp`) matches the used Node.js version. The example demonstrates a setting that should be applied if a newer Node.js version is used (i.e., the version is not `v8.X`). If that is the case, then pass the command line arguments (specified by `args`) to `npm install`, and also set the environment variables specified under `env` (which will also be picked up by `npm install` and any sub-command executed by it).
 
@@ -358,14 +358,14 @@ module.exports.ConnectorFactory = require('./lib/connectorFactory').ConnectorFac
 Alternatively, you can set your `caliper.blockchain` attribute to an NPM package name if you published your connector. In that case, you must ensure that the package is installed in the Caliper workspace directory prior to running the benchmark. The recommended naming convention for packages is `caliper-sut`. For our example, the caliper.blockchain attribute would be set to `caliper-fast-ledger`.
 
 !!! note
-     
-    *Until Caliper reaches its first major version, it is recommended to version your connector package based on which `@hyperledger/caliper-core` version you depend on.*   
 
-### Built-in 
+    *Until Caliper reaches its first major version, it is recommended to version your connector package based on which `@hyperledger/caliper-core` version you depend on.*
+
+### Built-in
 
 !!! note
-     
-    ***By contributing a connector to the code-base, you also accept the responsibility of maintaining the connector when needed. Otherwise, it might become stale and deprecated in future releases.***   
+
+    ***By contributing a connector to the code-base, you also accept the responsibility of maintaining the connector when needed. Otherwise, it might become stale and deprecated in future releases.***
 
 If you would like to expose you connector to a wider user-base, then you should contribute your code to the official Caliper repository, so your connector becomes a built-in module, immediately available when someone installs Caliper.
 
@@ -373,7 +373,7 @@ If you would like to expose you connector to a wider user-base, then you should 
 
     *Don’t hesitate to reach out to the project maintainers on Rocket.Chat (`#caliper-contributors` channel) who will help you with the integration.*
 
-The integration consists of the following steps (for an example, see the `[caliper-ethereum](https://github.com/hyperledger-caliper/caliper/tree/v0.6.0/packages/caliper-ethereum)` connector):
+The integration consists of the following steps (for an example, see the `[caliper-fabric](https://github.com/hyperledger-caliper/caliper/tree/v0.6.0/packages/caliper-fabric)` connector):
 
 1. Create a `caliper-fast-ledger` directory in the `packages` directory of the repository. This will contain your connector implementation.
 2. Update your metadata in your own `package.json` file accordingly. The package name should be scoped: `@hyperledger/caliper-fast-ledger`.

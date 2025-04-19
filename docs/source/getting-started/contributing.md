@@ -163,7 +163,6 @@ The [packages](https://github.com/hyperledger/caliper/tree/main/packages/) direc
 
 * [caliper-cli](https://github.com/hyperledger-caliper/caliper/tree/main/packages/caliper-cli/): The command line interface (CLI) of Caliper.
 * [caliper-core](https://github.com/hyperledger-caliper/caliper/tree/main/packages/caliper-core/): The core and common codebase of Caliper, used by the other packages.
-* [caliper-ethereum](https://github.com/hyperledger-caliper/caliper/tree/main/packages/caliper-ethereum/): The Ethereum and Hyperledger Besu connector implementation.
 * [caliper-fabric](https://github.com/hyperledger-caliper/caliper/tree/main/packages/caliper-fabric/): The Hyperledger Fabric connector implementation.
 * [generator-caliper](https://github.com/hyperledger-caliper/caliper/tree/main/packages/generator-caliper/): The Yeaoman generator for Caliper configuration files.
 
@@ -236,7 +235,7 @@ To run the integration tests for a specific SUT, use the following script from t
 user@ubuntu:~/caliper$ BENCHMARK=fabric ./.build/benchmark-integration-test-direct.sh
 ```
 
-The following platform tests (i.e., valid BENCHMARK values) are available: besu, ethereum, fabric.
+The following platform tests (i.e., valid BENCHMARK values) are available: fabric.
 
 A PR must pass all unit and integration tests.
 
@@ -369,7 +368,6 @@ Contains all the Caliper core code.
 **caliper-**
 Each `caliper-<adapter>` is a separate package that contains a distinct adaptor implementation to interact with different blockchain technologies. Current adaptors include:
 
-- caliper-ethereum
 - caliper-fabric
 
 Each adapter extends the `ConnectorBase` from the core package, as well as exports a `ConnectorFactory` function.

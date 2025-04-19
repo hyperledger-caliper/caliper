@@ -25,7 +25,6 @@ const url = require('url');
 require('winston-daily-rotate-file');
 
 const BuiltinConnectors = new Map([
-    ['ethereum', '@hyperledger/caliper-ethereum'],
     ['fabric', '@hyperledger/caliper-fabric']
 ]);
 

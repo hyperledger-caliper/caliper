@@ -92,13 +92,13 @@ Options:
 ```
 The binding step technically consists of an extra `npm install` call with the appropriate packages and install settings, fully managed by the CLI. The following parameters can be set for the command:
 
-- **SUT/platform name and SDK version**: specifies the name of the target platform and the SDK version to install, e.g., `fAbric:2.2`
+- **SUT/platform name and SDK version**: specifies the name of the target platform and the SDK version to install, e.g., `fabric:2.2`
 - **Working directory**: the directory from which the `npm install` command must be performed. Defaults to the current working directory
 - **User arguments**: additional arguments to pass to `npm install`, e.g., `--save`
 
 The following SUT name and SDK version combinations are supported:
 
-- **fabric**: `1.4`, `2.2`, `fabric-gateway`
+- **fabric**: `2.2`, `fabric-gateway`
 
 !!! note
 

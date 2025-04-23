@@ -194,28 +194,12 @@ caliper:
 
     # Configurations related to the Fabric Connector
     fabric:
-        # Enables extra verification steps during the transaction proposal phase for 1.4 SUT without gateway being enabled
-        verify:
-            # For 1.4 SUT without gateway enabled, Indicates whether to verify the identity of the endorsers and their signatures for
-            # each proposal response after endorsing a transaction.
-            # Note, that this is a CPU intensive step, use it with caution
-            proposalresponse: false
-            # For 1.4 SUT without gateway enabled, indicates whether to verify that the read-write sets returned by the endorsers match
-            readwritesets: true
         # Contains worker-side timeouts
         timeout:
             # The default timeout in seconds to use for invoking or querying transactions (applied for the entire life-cycle)
             invokeorquery: 60
-        # For 1.4 SUT without gateway enabled, determines how automatic load balancing is applied if the worker callback module doesn’t provide explicit targets.
-        # Use the value 'worker' to perform worker-based load balancing, meaning that each worker process will have fix target peers and target orderer.
-        # Use the value 'tx' to perform transaction-based load balancing, meaning that the peer and orderer targets change for every submitted transaction or query.
-        loadbalancing: tx
-        # For 1.4 SUT without gateway enabled, determines the reported commit time of a transaction based on the given percentage of event sources
-        latencythreshold: 1.0
-        # Settings for the 1.4 SUT with gateway enabled option and the 2.2 SUT (except the enabled option)
+        # Settings for the 2.2 Fabric Binding
         gateway:
-            # For 1.4 SUT, Indicates whether to use the Fabric Gateway API. For 2.2 SUT it is always true and cannot be changed
-            enabled: false
             # Indicates whether to convert discovered endpoints to localhost. Ignored when if discover is set to false in network config
             localhost: true
             # Which event strategy to use

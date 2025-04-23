@@ -13,7 +13,7 @@ The rule of thumb is to use lowercase letters (maybe numbers), and the hierarchy
 Every setting used by Caliper is prefixed with the `caliper-` string. The prefix serves as a namespace for the internal settings of Caliper modules. It also prevents name collisions since the configuration mechanism parses every setting available from the various sources, some intended, for example, to the underlying SDK modules or the workload modules.
 
 !!! note
-        
+
     *For every available runtime setting, refer to the [last section](#available-settings).*
 
 ## Setting sources
@@ -244,13 +244,13 @@ A default/fallback configuration file is shipped with the Caliper-related packag
 | Key                                 | Description                                                                                  |
 |-------------------------------------|----------------------------------------------------------------------------------------------|
 | caliper-benchconfig               | Path to the benchmark configuration file that describes the test worker(s), test rounds and monitors. |
-| caliper-networkconfig             | Path to the network configuration file that contains information required to interact with the SUT.    |
-| caliper-machineconfig             | The file path for the machine-level configuration file. Can be relative to the workspace.              |
-| caliper-projectconfig             | The file path for the project-level configuration file. Can be relative to the workspace.              |
+| caliper-networkconfig             | Path to the network configuration file that contains information required to interact with the SUT.   |
+| caliper-machineconfig             | The file path for the machine-level configuration file. Can be relative to the workspace.             |
+| caliper-projectconfig             | The file path for the project-level configuration file. Can be relative to the workspace.             |
 | caliper-userconfig                | The file path for the user-level configuration file. Can be relative to the workspace.                |
-| caliper-workspace                 | Workspace directory that contains all configuration information                                        |
-| caliper-progress-reporting-enabled| Boolean value for enabling transaction completion progress display by the Caliper manager process        |
-| caliper-progress-reporting-interval| Numeric value used to specify the caliper progress update frequency, in milliseconds                    |
+| caliper-workspace                 | Workspace directory that contains all configuration information                                       |
+| caliper-progress-reporting-enabled| Boolean value for enabling transaction completion progress display by the Caliper manager process     |
+| caliper-progress-reporting-interval| Numeric value used to specify the caliper progress update frequency, in milliseconds                 |
 
 ### Binding settings
 
@@ -259,7 +259,7 @@ A default/fallback configuration file is shipped with the Caliper-related packag
 | caliper-bind-args        | The additional args to pass to the binding (i.e., npm install) command.                           |
 | caliper-bind-cwd         | The CWD to use for the binding (i.e., npm install) command.                                       |
 | caliper-bind-file        | The path of a custom binding configuration file that will override the default one.               |
-| caliper-bind-sut         | The binding specification of the SUT in the `<SUT type>:<SDK version>` format.                      |
+| caliper-bind-sut         | The binding specification of the SUT in the `<SUT type>:<SDK version>` format.                    |
 
 ### Reporting settings
 
@@ -323,23 +323,18 @@ A default/fallback configuration file is shipped with the Caliper-related packag
 
 ### Fabric Connector settings
 
-In the following table, The 1.4 Refers to `1.4` SUT without the caliper-fabric-gateway-enabled specified and `1.4Gateway` Refers to 1.4 SUT with the caliper-fabric-gateway-enabled specified. `All` means that all the SUT versions support this option
+The following table shows available options and the version of the Fabric binding that supports it.
 
-| Key                                      | SUT Version        | Description                                                                                                       |
-|------------------------------------------|--------------------|-------------------------------------------------------------------------------------------------------------------|
-| caliper-fabric-timeout-invokeorquery     | All                | The default timeout in seconds to use for invoking or querying transactions. Default is 60 seconds.               |
-| caliper-fabric-gateway-enabled           | 1.4                | Indicates whether to use the Fabric gateway-based SDK API for the 1.4 Fabric SUT. Default is false.                |
-| caliper-fabric-gateway-localhost         | 1.4Gateway, 2.2    | Indicates whether to convert discovered endpoints to localhost. Does not apply if discover is set to false in network config. Default is true. |
-| caliper-fabric-gateway-querystrategy     | 1.4Gateway, 2.2    | Sets the query strategy to use for 2.2 and 1.4 when gateway is enabled. Default is Round Robin.                   |
-| caliper-fabric-gateway-eventstrategy     | 1.4Gateway, 2.2    | Sets the event strategy to use for 2.2 and 1.4 when gateway is enabled. Default is any in Invoker Organisation.    |
-| caliper-fabric-latencythreshold          | 1.4                | Determines the reported commit time of a transaction based on the given percentage of event sources.               |
-| caliper-fabric-loadbalancing             | 1.4                | Determines how automatic load balancing is applied.                                                               |
-| caliper-fabric-verify-proposalresponse   | 1.4                | Indicates whether to verify the received proposal responses.                                                      |
-| caliper-fabric-verify-readwritesets      | 1.4                | Indicates whether to verify that the read-write sets returned by the endorsers match.                             |
+| Key                                      | SUT Version | Description                                                                                                       |
+|------------------------------------------|-------------|-------------------------------------------------------------------------------------------------------------------|
+| caliper-fabric-timeout-invokeorquery     | All         | The default timeout in seconds to use for invoking or querying transactions. Default is 60 seconds.               |
+| caliper-fabric-gateway-localhost         | 2.2         | Indicates whether to convert discovered endpoints to localhost. Does not apply if discover is set to false in network config. Default is true. |
+| caliper-fabric-gateway-querystrategy     | 2.2         | Sets the query strategy to use for 2.2 when gateway is enabled. Default is Round Robin.                           |
+| caliper-fabric-gateway-eventstrategy     | 2.2         | Sets the event strategy to use for 2.2 when gateway is enabled. Default is any in Invoker Organisation.           |
 
 #### Supported Event Strategies
 
-A description of the different types of event strategy for both the 1.4 and 2.2 SUT can be found [here](https://hyperledger.github.io/fabric-sdk-node/release-1.4/module-fabric-network.html#.DefaultEventHandlerStrategies__anchor)
+A description of the different types of event strategy for the 2.2 fabric binding can be found [here](https://hyperledger.github.io/fabric-sdk-node/release-2.2/module-fabric-network.html#.DefaultEventHandlerStrategies__anchor). Note that only the ones listed below are supported
 
 To select an event strategy set the property `caliper-fabric-gateway-eventstrategy` to one of the following
 
@@ -361,7 +356,7 @@ The default is `msp_any`
 
 #### Supported Query Strategies
 
-A description of the different types of query strategy for both the 1.4 and 2.2 SUT can be found [here](https://hyperledger.github.io/fabric-sdk-node/release-1.4/module-fabric-network.html#.DefaultQueryHandlerStrategies__anchor)
+A description of the different types of query strategy for both the 2.2 Fabric bindind can be found [here](https://hyperledger.github.io/fabric-sdk-node/release-2.2/module-fabric-network.html#.DefaultQueryHandlerStrategies__anchor). Note that only the ones listed below are supported.
 
 To select a query strategy set the property `caliper-fabric-gateway-querystrategy` to one of the following
 

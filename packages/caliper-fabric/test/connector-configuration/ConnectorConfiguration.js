@@ -772,21 +772,6 @@ describe('A valid Connector Configuration', () => {
         });
     });
 
-    describe('when getting the orderers in channel', () => {
-        it('should return a map of channel names with their orderers', async () => {
-            const connectorConfiguration = await new ConnectorConfigurationFactory().create(JsonNetworkConfigWithConnProfileAnd2Orgs1AdminInWallet, walletFacadeFactory);
-            const orderersInChannelMap = await connectorConfiguration.getOrderersInChannelMap();
-            orderersInChannelMap.size.should.equal(2);
-            orderersInChannelMap.get('mychannel').should.deep.equal(['orderer0.example.com', 'orderer1.example.com']);
-            orderersInChannelMap.get('yourchannel').should.deep.equal(['orderer0.example.com', 'orderer1.example.com']);
-        });
-        it('should throw an error if a channel cannot be found in any of the connection profiles', async () => {
-            const connectorConfiguration = await new ConnectorConfigurationFactory().create(YamlNetworkConfigWithConnProfileAnd2Orgs1AdminInWallet, walletFacadeFactory);
-            await connectorConfiguration.getOrderersInChannelMap()
-                .should.be.rejectedWith(/No orderers could be found for channel somechannel/);
-        });
-    });
-
     describe('when getting channel/orgs/endorsing peers map', () => {
         it('should return a correct map', async () => {
             const connectorConfiguration = await new ConnectorConfigurationFactory().create('./test/sample-configs/BasicConfigWithStaticCCP.yaml', walletFacadeFactory);

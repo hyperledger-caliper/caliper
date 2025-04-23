@@ -48,7 +48,7 @@ cd ${DIR}
 ${GENERATOR_METHOD} -- --workspace 'myWorkspace' --contractId 'mymarbles' --contractVersion 'v0' --contractFunction 'queryMarblesByOwner' --contractArguments '["Alice"]' --workers 'marbles' --benchmarkName 'A name for the marbles benchmark' --benchmarkDescription 'A description for the marbles benchmark' --label 'A label for the round' --rateController 'fixed-rate' --txType 'txDuration' --txDuration 'marbles'
 # start network and run benchmark test
 cd ../
-# bind the sdk into the packages directory as it will search for it there, this ensures it doesn't contaminate real node_modules dirs (2.2 will work with a 1.4 fabric)
+# bind the sdk into the packages directory as it will search for it there, this ensures it doesn't contaminate real node_modules dirs
 # Note: Fabric 2.2 binding is cached in CI
 export FABRIC_VERSION=2.2.20
 export NODE_PATH="$SUT_DIR/cached/v$FABRIC_VERSION/node_modules"

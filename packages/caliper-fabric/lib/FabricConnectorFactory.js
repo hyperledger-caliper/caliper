@@ -19,10 +19,6 @@ const ConnectorConfigurationFactory = require('./connector-configuration/Connect
 const Logger = CaliperUtils.getLogger('FabricConnectorFactory');
 const semver = require('semver');
 
-const V1_NODE_CONNECTOR = './connector-versions/v1/FabricNonGateway.js';
-const V1_GATEWAY_CONNECTOR = './connector-versions/v1/FabricGateway.js';
-const V1_WALLET_FACADE_FACTORY = './connector-versions/v1/WalletFacadeFactory.js';
-
 const V2_GATEWAY_CONNECTOR = './connector-versions/v2/FabricGateway.js';
 const V2_WALLET_FACADE_FACTORY = './connector-versions/v2/WalletFacadeFactory.js';
 
@@ -39,7 +35,6 @@ const PEER_WALLET_FACADE_FACTORY = './connector-versions/peer-gateway/WalletFaca
  * @returns {Sdk} installedSDKmodule and version
  */
 const _determineInstalledNodeSDKandVersion = () => {
-    // Caliper can only work if you use bind and it will pull in fabric network even for non gateway 1.4
     let sdk, packageVersion;
 
     if (CaliperUtils.moduleIsInstalled('@hyperledger/fabric-gateway')) {
@@ -68,23 +63,7 @@ const _loadAppropriateConnectorClass = (installedNodeSdk, version) => {
     let walletFacadeFactoryPath;
 
     if (installedNodeSdk ===  'fabric-network') {
-        if (semver.satisfies(version, '=1.x')) {
-            const useGateway = ConfigUtil.get(ConfigUtil.keys.Fabric.Gateway.Enabled, false);
-            Logger.info(`Initializing ${useGateway ? 'gateway' : 'standard' } connector compatible with installed fabric-network SDK: ${version}`);
-
-            if (!useGateway) {
-                connectorPath = V1_NODE_CONNECTOR;
-                walletFacadeFactoryPath = V1_WALLET_FACADE_FACTORY;
-            } else {
-                // gateway with default event handlers appears in SDK > 1.4.2
-                if (semver.satisfies(version, '>=1.4.2')) {
-                    connectorPath = V1_GATEWAY_CONNECTOR;
-                    walletFacadeFactoryPath = V1_WALLET_FACADE_FACTORY;
-                } else {
-                    throw new Error('Caliper currently only supports Fabric gateway based operation using Fabric-SDK 1.4.2 and higher. Please retry with a different SDK binding');
-                }
-            }
-        } else if (semver.satisfies(version, '=2.x')) {
+        if (semver.satisfies(version, '=2.x')) {
             Logger.info(`Initializing gateway connector compatible with installed SDK: ${version}`);
             connectorPath = V2_GATEWAY_CONNECTOR;
             walletFacadeFactoryPath = V2_WALLET_FACADE_FACTORY;

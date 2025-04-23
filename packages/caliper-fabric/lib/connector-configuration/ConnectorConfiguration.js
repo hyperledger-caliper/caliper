@@ -344,40 +344,6 @@ class ConnectorConfiguration {
     }
 
     /**
-     * Create a map of all the channels and the orderers managing each channel
-     * Only used by the operational fabric 1.4 code so only works with static connection profiles
-     * @returns {Promise<Map>} Map of orderers for channel
-     * @async
-     */
-    async getOrderersInChannelMap() {
-        if (!this.orderersInChannelMap) {
-            this.orderersInChannelMap = new Map();
-
-            for (const channelName of this.getAllChannelNames()) {
-                for (const organization of this.getOrganizations()) {
-                    const connectionProfileDefinition = await this.getConnectionProfileDefinitionForOrganization(organization);
-                    let orderers;
-                    try {
-                        orderers = connectionProfileDefinition.getOrderersForChannel(channelName);
-                    } catch(error) {
-                        // ignore if the channel is not defined in this connection profile and can try others
-                    }
-                    if (orderers && orderers.length > 0) {
-                        this.orderersInChannelMap.set(channelName, orderers);
-                        break;
-                    }
-                }
-
-                if (!this.orderersInChannelMap.get(channelName)) {
-                    throw new Error(`No orderers could be found for channel ${channelName} in any of the connection profiles`);
-                }
-            }
-        }
-
-        return this.orderersInChannelMap;
-    }
-
-    /**
      * Load a connection profile into memory
      * @param {string} connectionProfilePath The path the the connection profile
      * @returns {Promise<*>} In memory representation of a connection profile

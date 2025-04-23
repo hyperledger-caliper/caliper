@@ -26,19 +26,6 @@ You must bind Caliper to a specific Fabric SDK to target the corresponding (or c
 
     - *None of the Fabric bindings support administration actions. It it not possible to create/join channels nor deploy a chaincode. Consequently running caliper only facilitate operations using the `--caliper-flow-only-test` flag*
 
-### Binding with Fabric 1.4 Client SDK
-
-To bind with this client sdk, use `fabric:1.4`. Do not use this binding if using the BFT Concensus mechanism in Hyperledger Fabric that was introduced in version 3.0.0, use fabric:fabric-gateway instead.
-
-It is confirmed that a 1.4 Fabric SDK is compatible with a Fabric 2.2 and later Fabric 2.x SUTs, therefore this binding can be used with later Fabric SUTs
-
-Note that when using the binding target for the Fabric SDK 1.4 there are capability restrictions:
-
-!!! note
-
-    - *Currently setting `discover` to `true` in the network configuration file is not supported if you don’t enable the `gateway` option (eg specifying –caliper-Fabric-gateway-enabled as a command line option)*
-    - *Detailed execution data for every transaction is only available if you don’t enable the `gateway` option*
-
 ### Binding with Fabric 2.2 Client SDK
 
 To bind with this client sdk, use `fabric:2.2`. Do not use this binding if using the BFT Concensus mechanism in Hyperledger Fabric that was introduced in version 3.0.0, use fabric:fabric-gateway instead.
@@ -51,7 +38,7 @@ It is confirmed that a 2.2 Fabric SDK is compatible with 2.2 and later Fabric SU
 
 ### Binding with Fabric Gateway Client SDK
 
-To bind with this client sdk, use `fabric:fabric-gateway`. This is now the preferred SDK to use given that Fabric 2.2 and earlier are now not in LTS and as such the Fabric 1.4 and 2.2 SDKs are deprecated.
+To bind with this client sdk, use `fabric:fabric-gateway`. This is now the preferred SDK to use given that Fabric 2.2 and earlier are now not in LTS and as such the Fabric 1.4 and 2.2 SDKs have been archived.
 
 Only Fabric 2.4 and later with the Peer Gateway capability enabled (which is the default setting for a Fabric peer) can be used so for older versions of Hyperledger Fabric you cannot bind with this client SDK.
 
@@ -66,14 +53,13 @@ Connection Profiles are a Fabric standard that provides connectivity information
 
 Hyperledger Fabric in 1.2 introduced the concept of discovery. This allowed you to ask a peer for the network topology. Your Fabric network has to be configured correctly for this to work (but all Fabric networks should be configured to allow for discovery now). Connection profiles that use this capability will only have a list of 1 or more peers for the specific organisation that connection profile applies to which will be used to discover the network. These connection profiles are referred to as `dynamic` connection profiles and when you use this connection profile with Caliper you should set the `discover` property to true.
 
-Network builders and providers should generate connection profiles (for example test-network in fabric-samples does this), however if you don’t have a connection profile you will need to create one. Information about creating connection profiles can be found in Hyperledger Fabric documentation as well as the node-sdk documentation (the format changed between node sdks. The 1.4 version should work when binding to either Fabric 1.4 or 2.2 but the version documented by 2.2 may only work when binding to Fabric 2.2)
+Network builders and providers should generate connection profiles (for example test-network in fabric-samples does this), however if you don’t have a connection profile you will need to create one. Information about creating connection profiles can be found in Hyperledger Fabric documentation as well as the node-sdk documentation
 
 - [node sdk 2.2 documentation for connection profiles](https://hyperledger.github.io/fabric-sdk-node/release-2.2/tutorial-commonconnectionprofile.html)
-- [node sdk 1.4 documentation for connection profiles](https://hyperledger.github.io/fabric-sdk-node/release-1.4/tutorial-network-config.html)
 
 Unfortunately the documentation provided by Hyperledger Fabric is more focused on static connection profiles rather than dynamic connection profiles and your aim should be to create the simpler and smaller dynamic connection profile.
 
-With the introduction of using the Peer Gateway rather than the traditional node sdks (1.4 and 2.2) caliper has introduced the concept of declaring peers in an organization within the network configuration file as an alternative to connection profiles. This provides a simple way to describe either peers to discover from (when binding to Fabric 1.4 or 2.2, for Fabric 1.4 you must enable the gateway option as it won’t work otherwise as discovery is not supported with the Fabric 1.4 binding when the gateway option is not enabled) or the peer to be used as a gateway into the Fabric network (when binding to Fabric 2.4/fabric-gateway). An example of a peers section in the network configuration is
+With the introduction of using the Peer Gateway rather than the traditional fabric node sdks, caliper has introduced the concept of declaring peers in an organization within the network configuration file as an alternative to connection profiles. This provides a simple way to describe either peers to discover from when binding to Fabric 2.2 or the peer to be used as a gateway into the Fabric network when binding to Fabric gateway. An example of a peers section in the network configuration is
 
 ```sh
 peers:
@@ -96,7 +82,7 @@ peers:
 ### Common settings
 Some runtime properties of the adapter can be set through Caliper’s [runtime configuration mechanism](../concepts/runtime-config.md). For the available settings, see the `caliper.fabric` section of the [default configuration file](https://github.com/hyperledger-caliper/caliper/blob/v0.6.0/packages/caliper-core/lib/common/config/default.yaml) and its embedded documentation.
 
-The above settings are processed when starting Caliper. Modifying them during testing will have no effect. However, you can override the default values *before Caliper* starts from the usual configuration sources. In the following example the `localhost` property applies only when binding with Fabric 2.2 or Fabric 1.4 (and only if the `gateway` option is enabled)
+The above settings are processed when starting Caliper. Modifying them during testing will have no effect. However, you can override the default values *before Caliper* starts from the usual configuration sources. In the following example the `localhost` property applies only when binding with Fabric 2.2.
 
 !!!note
 
@@ -147,8 +133,6 @@ The settings object has the following structure:
 - `targetPeers`: string[]. Optional. An array of endorsing peer names as the targets of the transaction proposal. If omitted, the target list will be chosen for you and if discovery is used then the node SDK uses discovery to determine the correct peers.
 - `targetOrganizations`: string[]. Optional. An array of endorsing organizations as the targets of the invoke. If both targetPeers and targetOrganizations are specified, then targetPeers will take precedence.
 - `channel`: string. Optional. The name of the channel on which the contract to call resides.
-- `timeout`: number. Optional. [**Only applies to 1.4 binding when not enabling gateway use**] The timeout in seconds to use for this request.
-- `orderer`: string. Optional. [**Only applies to 1.4 binding when not enabling gateway use**] The name of the target orderer for the transaction broadcast. If omitted, then an orderer node of the channel will be automatically selected.
 
 So invoking a contract looks like the following:
 
@@ -182,7 +166,7 @@ The standard data provided are the following:
 
 The adapter also gathers the following platform-specific data (if observed) about each transaction, each exposed through a specific key name. The placeholders `<P>` and `<O>` in the key names are node names taking their values from the top-level peers and orderers sections from the network configuration file (e.g., `endorsement_result_peer0.org1.example.com`). The `Get(key:string):any` function returns the value of the observation corresponding to the given key. Alternatively, the `GetCustomData():Map<string,any>` returns the entire collection of gathered data as a `Map`.
 
-### Available data keys for all Fabric SUTs
+### Available data keys for all Fabric Bindings
 
 The adapter-specific data keys that are available when binding to any of the Fabric SUT versions are :
 
@@ -190,47 +174,6 @@ The adapter-specific data keys that are available when binding to any of the Fab
 |------------------|-------------|---------------------------------------------------------------------------------------------|
 | `request_type`   | string      | Either the `transaction` or `query` string value for traditional transactions or queries, respectively. |
 
-
-## Available data keys for the Fabric 1.4 SUT when gateway is not enabled
-The adapter-specific data keys that only the v1.4 SUT when not enabling the gateway makes available are :
-
-| Key name                           | Data type    | Description                                                                                          |
-|------------------------------------|--------------|------------------------------------------------------------------------------------------------------|
-| `time_endorse`                     | number       | The Unix epoch when the adapter received the proposal responses from the endorsers. Saved even in the case of endorsement errors.                                  |
-| `proposal_error`                   | string       | The error message in case an error occurred during sending/waiting for the proposal responses from the endorsers.                                                  |
-| `proposal_response_error_<P>`      | string       | The error message in case the endorser peer `<P>` returned an error as endorsement result.                                                                        |
-| `endorsement_result_<P>`           | Buffer       | The encoded contract invocation result returned by the endorser peer `<P>`. It is the user callback’s responsibility to decode the result.                        |
-| `endorsement_verify_error_<P>`     | string       | Has the value of 'INVALID' if the signature and identity of the endorser peer `<P>` couldn’t be verified. This verification step can be switched on/off through the [runtime configuration options](#runtime-settings). |
-| `endorsement_result_error<P>`      | string       | If the transaction proposal or query execution at the endorser peer `<P>` results in an error, this field contains the error message.                             |
-| `read_write_set_error`             | string       | Has the value of 'MISMATCH' if the sent transaction proposals resulted in different read/write sets.                                                              |
-| `time_orderer_ack`                 | number       | The Unix epoch when the adapter received the confirmation from the orderer that it successfully received the transaction. Note, that this isn’t the actual ordering time of the transaction.                      |
-| `broadcast_error_<O>`              | string       | The warning message in case the adapter did not receive a successful confirmation from the orderer node `<O>`.                                                   |
-| `broadcast_response_error_<O>`     | string       | The error message in case the adapter received an explicit unsuccessful response from the orderer node `<O>`.                                                   |
-| `unexpected_error`                 | string       | The error message in case some unexpected error occurred during the life-cycle of a transaction.                                                                 |
-| `commit_timeout_<P>`               | string       | Has the value of `'TIMEOUT'` in case the event notification about the transaction did not arrive in time from the peer node `<P>`.                                |
-| `commit_error_<P>`                 | string       | Contains the error code in case the transaction validation fails at the end of its life-cycle on peer node `<P>`.                                                |
-| `commit_success_<P>`               | number       | The Unix epoch when the adapter received a successful commit event from the peer node `<P>`. Note, that transactions committed in the same block have nearly identical commit times, since the SDK receives them block-wise, i.e., at the same time. |
-| `event_hub_error_<P>`              | string       | The error message in case some event hub connection-related error occurs with peer node `<P>`.                                                                   |
-
-You can access these data in your workload module after calling `sendRequests`:
-
-```sh
-let requestSettings = {
-    contractId: 'marbles',
-    contractVersion: '0.1.0',
-    contractFunction: 'initMarble',
-    contractArguments: ['MARBLE#1', 'Red', '100', 'Attila'],
-    invokerIdentity: 'client0.org2.example.com',
-    timeout: 10
-};
-
-// single argument, single return value
-const result = await this.sutAdapter.sendRequests(requestSettings);
-
-let shortID = result.GetID().substring(8);
-let executionTime = result.GetTimeFinal() - result.GetTimeCreate();
-console.log(`TX [${shortID}] took ${executionTime}ms to execute. Result: ${result.GetStatus()}`);
-```
 
 ### The cleanupWorkloadModule function
 
@@ -487,7 +430,7 @@ The following sections detail each part separately. For a complete example, plea
 
         <i>Optional. Boolean.</i>
         <br/>
-        This does not need to be provided when binding to the <pre><code>fabric-gateway</pre></code> and will be ignored if provided and is relevant only for the 1.4 and 2.2 fabric bindings. A value of <pre><code>true</pre></code> indicates that the connection profile is a dynamic connection profile and discovery should be used. If not specified then it defaults to <pre><code>false</pre></code>. For a Fabric 1.4 binding you can only set this value to true if you plan to use the <pre><code>gateway</pre></code> option.
+        This does not need to be provided when binding to <pre><code>fabric:fabric-gateway</pre></code> and will be ignored if provided and is relevant only when binding to <pre><code>fabric:2.2</pre></code>. A value of <pre><code>true</pre></code> indicates that the connection profile is a dynamic connection profile and discovery should be used. If not specified then it defaults to <pre><code>false</pre></code>.
 
         ```sh
         organizations:
@@ -508,7 +451,7 @@ The following sections detail each part separately. For a complete example, plea
         <br/>
         Reference to one or more peers that are either
         <ul>
-        <li>a peer to discover the network from when bound to Fabric 2.2 or Fabric 1.4 in conjunction with using the gateway enabled option
+        <li>a peer to discover the network from when bound to Fabric 2.2
         </li>
         <li>a gateway peer when bound to Fabric gateway</li>
         </ul>
@@ -1057,4 +1000,4 @@ organizations:
 
 ## License
 
-The Caliper codebase is released under the [Apache 2.0 license](../getting-started/license.md). Any documentation developed by the Caliper Project is licensed under the Creative Commons Attribution 4.0 International License. You may obtain a copy of the license, titled CC-BY-4.0, at [http://creativecommons.org/licenses/by/4.0/](http://creativecommons.org/licenses/by/4.0/).
+The Caliper codebase is released under the [Apache 2.0 license](../getting-started/license.md). Any documentation developed by the Caliper Project is licensed under the Creative Commons Attribution 4.0 International License. You may obtain a copy of the license, titled CC-BY-4.0, at [http://creativecommons.org/licenses/by/4.0/](http://creativecommons.org/licenses/by/4.0/).

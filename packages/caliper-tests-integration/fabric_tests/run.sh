@@ -27,18 +27,6 @@ fi
 # back to this dir
 cd ${DIR}
 
-# bind during CI tests, using the package dir as CWD
-# Note: do not use env variables for binding settings, as subsequent launch calls will pick them up and bind again
-# Note: Fabric 1.4 binding is cached in CI
-export FABRIC_VERSION=1.4.20
-export NODE_PATH="$SUT_DIR/cached/v$FABRIC_VERSION/node_modules"
-if [[ "${BIND_IN_PACKAGE_DIR}" = "true" ]]; then
-    mkdir -p $SUT_DIR/cached/v$FABRIC_VERSION
-    pushd $SUT_DIR/cached/v$FABRIC_VERSION
-    ${CALL_METHOD} bind --caliper-bind-sut fabric:$FABRIC_VERSION
-    popd
-fi
-
 # change default settings (add config paths too)
 export CALIPER_PROJECTCONFIG=../caliper.yaml
 
@@ -73,24 +61,6 @@ if [[ ${rc} != 0 ]]; then
     exit ${rc};
 fi
 
-# PHASE 2: testing through the low-level API
-${CALL_METHOD} launch manager --caliper-workspace phase2 --caliper-flow-only-test
-rc=$?
-if [[ ${rc} != 0 ]]; then
-    echo "Failed CI step 2";
-    dispose;
-    exit ${rc};
-fi
-
-# PHASE 3: testing through the gateway API (v1 SDK)
-${CALL_METHOD} launch manager --caliper-workspace phase3 --caliper-flow-only-test --caliper-fabric-gateway-enabled
-rc=$?
-if [[ ${rc} != 0 ]]; then
-    echo "Failed CI step 3";
-    dispose;
-    exit ${rc};
-fi
-
 # BIND with 2.2 SDK, using the package dir as CWD
 # Note: do not use env variables for unbinding settings, as subsequent launch calls will pick them up and bind again
 # Note: Fabric 2.2 binding is cached in CI
@@ -103,11 +73,11 @@ if [[ "${BIND_IN_PACKAGE_DIR}" = "true" ]]; then
     popd
 fi
 
-# PHASE 4: testing through the gateway API (v2 SDK)
-${CALL_METHOD} launch manager --caliper-workspace phase4 --caliper-flow-only-test
+# PHASE 2: testing through the gateway API (v2 SDK)
+${CALL_METHOD} launch manager --caliper-workspace phase2 --caliper-flow-only-test
 rc=$?
 if [[ ${rc} != 0 ]]; then
-    echo "Failed CI step 4";
+    echo "Failed CI step 2";
     dispose;
     exit ${rc};
 fi
@@ -124,20 +94,20 @@ if [[ "${BIND_IN_PACKAGE_DIR}" = "true" ]]; then
     popd
 fi
 
-# PHASE 5: testing through the peer gateway API (fabric-gateway SDK)
-${CALL_METHOD} launch manager --caliper-workspace phase5 --caliper-flow-only-test
+# PHASE 3: testing through the peer gateway API (fabric-gateway SDK)
+${CALL_METHOD} launch manager --caliper-workspace phase3 --caliper-flow-only-test
 rc=$?
 if [[ ${rc} != 0 ]]; then
-    echo "Failed CI step 5";
+    echo "Failed CI step 3";
     dispose;
     exit ${rc};
 fi
 
-# PHASE 6: just disposing of the network
-${CALL_METHOD} launch manager --caliper-workspace phase6 --caliper-flow-only-end
+# PHASE 4: just disposing of the network
+${CALL_METHOD} launch manager --caliper-workspace phase4 --caliper-flow-only-end
 rc=$?
 if [[ ${rc} != 0 ]]; then
-    echo "Failed CI step 6";
+    echo "Failed CI step 4";
     exit ${rc};
 fi
 

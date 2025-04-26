@@ -46,7 +46,9 @@ Only Fabric 2.4 and later with the Peer Gateway capability enabled (which is the
     *The following further restrictions exist for this binding*<br>
     - *Detailed execution data for every transaction is not available.<br>*
     - *mutual TLS is not supported<br>*
-    - *peer and organization targeting is not supported so the options `targetPeers` and `targetOrganizations` in a request will throw an error.*
+    - *peer targeting is not supported so the option `targetPeers` in a request will throw an error.*
+
+The gateway peer that is selected to receive the transaction is based on the MSP of the identity used for the transaction. It will be the first peer listed in the network configuration of the MSP.
 
 ## Connection Profiles
 Connection Profiles are a Fabric standard that provides connectivity information for your Fabric network. In the past (Hyperledger Fabric 1.1) you needed to describe all your endpoints in a connection profile, ie all the orderers and all the peers in order to be able to connect a client application to the network. This is referred to as a `static` connection profile and when you use this connection profile with Caliper you should set the `discover` property to false. The problem with static connection profiles is that if a network topology changes (eg add/remove orderer, peer, organisation etc) then every client needs to have an updated connection profile.
@@ -79,8 +81,10 @@ peers:
 
 ## Runtime settings
 
-### Common settings
-Some runtime properties of the adapter can be set through Caliper’s [runtime configuration mechanism](../concepts/runtime-config.md). For the available settings, see the `caliper.fabric` section of the [default configuration file](https://github.com/hyperledger-caliper/caliper/blob/v0.6.0/packages/caliper-core/lib/common/config/default.yaml) and its embedded documentation.
+Caliper has it's on configuration file and contains configuration options which have an effect on the fabric adapter.
+These runtime properties can be set through Caliper’s [runtime configuration mechanism](../concepts/runtime-config.md). Note that this caliper runtime configuration file is a different file to the network configuration file discussed later.
+
+For the available settings, see the `caliper.fabric` section of the [default configuration file](https://github.com/hyperledger-caliper/caliper/blob/v0.6.0/packages/caliper-core/lib/common/config/default.yaml) and its embedded documentation.
 
 The above settings are processed when starting Caliper. Modifying them during testing will have no effect. However, you can override the default values *before Caliper* starts from the usual configuration sources. In the following example the `localhost` property applies only when binding with Fabric 2.2.
 
@@ -130,8 +134,8 @@ The settings object has the following structure:
 - `transientMap`: Map<string, byte[]>. Optional. The transient map to pass to the contract.
 - `invokerIdentity`: string. Optional. The name of the user who should invoke the contract. If not provided, a user will be selected from the organization defined by `invokerMspId` or the first organization in the network configuration file if that property is not provided.
 - `invokerMspId`: string. Optional. The mspid of the user organization who should invoke the contract. Defaults to the first organization in the network configuration file.
-- `targetPeers`: string[]. Optional. An array of endorsing peer names as the targets of the transaction proposal. If omitted, the target list will be chosen for you and if discovery is used then the node SDK uses discovery to determine the correct peers.
-- `targetOrganizations`: string[]. Optional. An array of endorsing organizations as the targets of the invoke. If both targetPeers and targetOrganizations are specified, then targetPeers will take precedence.
+- `targetPeers`: string[]. Optional. An array of endorsing peer names as the targets of the transaction proposal when binding to fabric:2.2. If omitted, the target list will be chosen for you and if discovery is used then the node SDK uses discovery to determine the correct peers. This option is not supported in fabric:fabric-gateway binding and will throw an error.
+- `targetOrganizations`: string[]. Optional. An array of endorsing organizations as the targets of the invoke. for the fabric:2.2 binding, if both targetPeers and targetOrganizations are specified, then targetPeers will take precedence.
 - `channel`: string. Optional. The name of the channel on which the contract to call resides.
 
 So invoking a contract looks like the following:

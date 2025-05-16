@@ -237,7 +237,7 @@ Let’s see the three types of version numbers you will encounter:
 
 ### Pre-requisites
 
-- Node.js v18 LTS, v20 LTS or v22 LTS version is required to install the Caliper CLI from NPM:
+- Node.js v20 LTS or v22 LTS version is required to install the Caliper CLI from NPM:
 - Docker version 20.10.11 or later is required for use with the Caliper docker image
 
 The following tools may be required depending on which SUT and version you bind to

@@ -62,6 +62,10 @@ const crypto = {
     },
     getCiphers: () =>{
         return '';
+    },
+
+    getCurves: () => {
+        return '';
     }
 };
 

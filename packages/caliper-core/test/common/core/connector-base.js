@@ -43,10 +43,30 @@ class MockConnector extends ConnectorBase {
     }
 }
 
+class BadConnector extends ConnectorBase {
+}
+
 describe('the base connector implementation', () => {
     after(() => {
         loggerSandbox.restore();
     });
+
+    describe('on creation', () => {
+        it('should be able to retrieve worker index and type', () => {
+            const mockConnector = new MockConnector(1, 'mock');
+            mockConnector.getWorkerIndex().should.equal(1);
+            mockConnector.getType().should.equal('mock');
+        });
+    });
+
+    describe('on preparing worker arguments', () => {
+        it('should return an array of empty objects for the number of workers', async () => {
+            const mockConnector = new MockConnector(1, 'mock');
+            await mockConnector.prepareWorkerArguments(2).should.eventually.deep.equal([{}, {}]);
+            await mockConnector.prepareWorkerArguments(3).should.eventually.deep.equal([{}, {}, {}]);
+        });
+    });
+
 
     describe('on sending requests', () => {
         let mockConnector;
@@ -57,6 +77,11 @@ describe('the base connector implementation', () => {
         beforeEach(() => {
             mockConnector = new MockConnector(1, 'mock');
             emitSpy = sinon.spy(mockConnector, 'emit');
+        });
+
+        it('should throw an error if _sendSingleRequest is not implemented', async () => {
+            const badConnector = new BadConnector(1, 'mock');
+            await badConnector.sendRequests().should.be.rejectedWith(/Method "_sendSingleRequest" is not implemented for this connector/);
         });
 
         it('should process a single request that returns a transaction status result', async() => {

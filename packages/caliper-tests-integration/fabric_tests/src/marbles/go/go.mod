@@ -1,7 +1,8 @@
 module github.com/hyperledger/fabric-samples/chaincode/marbles02/go
 
-go 1.21.0
-toolchain go1.24.1
+go 1.23.0
+
+toolchain go1.24.2
 
 require (
 	github.com/hyperledger/fabric-chaincode-go v0.0.0-20240704073638-9fb89180dc17

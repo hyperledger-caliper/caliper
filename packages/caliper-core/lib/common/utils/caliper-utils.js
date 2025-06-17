@@ -263,7 +263,7 @@ class CaliperUtils {
         }
 
         try{
-            return yaml.safeLoad(fs.readFileSync(filenameOrFilePath),'utf8');
+            return yaml.load(fs.readFileSync(filenameOrFilePath),'utf8');
         }
         catch(err) {
             throw new Error(`Failed to parse the ${filenameOrFilePath}: ${(err.message || err)}`);
@@ -281,7 +281,7 @@ class CaliperUtils {
         }
 
         try{
-            return yaml.safeDump(obj);
+            return yaml.dump(obj);
         }
         catch(err) {
             throw new Error(`Failed to stringify object: ${(err.message || err)}`);
@@ -299,7 +299,7 @@ class CaliperUtils {
         }
 
         try{
-            return yaml.safeLoad(stringContent);
+            return yaml.load(stringContent);
         }
         catch(err) {
             throw new Error(`Failed to parse the YAML string: ${(err.message || err)}`);

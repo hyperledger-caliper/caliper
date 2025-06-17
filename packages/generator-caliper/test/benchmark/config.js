@@ -101,7 +101,7 @@ describe ('benchmark configuration generator', () => {
     it('should use the configuration template and user prompts to populate the created config.yaml', async () => {
         options.txDuration = 30;
         await runGenerator();
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         config.should.deep.equal(configJSON);
     });
 
@@ -110,7 +110,7 @@ describe ('benchmark configuration generator', () => {
         options.rateController = 'fixed-rate';
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"type":"fixed-rate"');
 
@@ -122,7 +122,7 @@ describe ('benchmark configuration generator', () => {
         options.rateController = 'fixed-backlog';
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"type":"fixed-backlog"');
 
@@ -134,7 +134,7 @@ describe ('benchmark configuration generator', () => {
         options.rateController = 'fixed-feedback-rate';
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"type":"fixed-feedback-rate"');
 
@@ -146,7 +146,7 @@ describe ('benchmark configuration generator', () => {
         options.rateController = 'linear-rate';
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"type":"linear-rate"');
 
@@ -158,7 +158,7 @@ describe ('benchmark configuration generator', () => {
         options.rateController = 'fixed-load';
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"type":"fixed-load"');
 
@@ -170,7 +170,7 @@ describe ('benchmark configuration generator', () => {
         options.txDuration = 30;
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"txDuration"');
 
@@ -182,7 +182,7 @@ describe ('benchmark configuration generator', () => {
         options.txNumber = 30;
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"txNumber"');
 
@@ -193,7 +193,7 @@ describe ('benchmark configuration generator', () => {
         options.workers = 'penguin';
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"workers":{"number":1');
 
@@ -204,7 +204,7 @@ describe ('benchmark configuration generator', () => {
         options.workers = -10;
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"workers":{"number":10');
 
@@ -216,7 +216,7 @@ describe ('benchmark configuration generator', () => {
         options.txDuration = -30;
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"txDuration":30');
 
@@ -228,7 +228,7 @@ describe ('benchmark configuration generator', () => {
         options.txNumber = -30;
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"txNumber":30');
 
@@ -240,7 +240,7 @@ describe ('benchmark configuration generator', () => {
         options.txDuration = 'penguin';
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"txDuration":20');
 
@@ -252,7 +252,7 @@ describe ('benchmark configuration generator', () => {
         options.txNumber = 'penguin';
         await runGenerator();
 
-        const config = yaml.safeLoad(fs.readFileSync(tmpConfigPath),'utf8');
+        const config = yaml.load(fs.readFileSync(tmpConfigPath),'utf8');
         const configStr = JSON.stringify(config);
         const fileContains = configStr.includes('"txNumber":50');
 

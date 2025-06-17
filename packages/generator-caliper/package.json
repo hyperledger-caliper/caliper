@@ -33,12 +33,12 @@
         "camelcase": "6.0.0"
     },
     "devDependencies": {
-        "chai": "^3.5.0",
+        "chai": "^4.4.1",
         "eslint": "^5.16.0",
         "js-yaml": "^3.13.1",
         "license-check-and-add": "2.3.6",
-        "mocha": "3.4.2",
-        "nyc": "11.1.0",
+        "mocha": "11.6.0",
+        "nyc": "17.1.0",
         "yeoman-assert": "^3.1.1",
         "yeoman-test": "^2.3.0"
     },

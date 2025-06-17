@@ -25,8 +25,8 @@
     },
     "devDependencies": {
         "eslint": "^5.16.0",
-        "mocha": "3.4.2",
-        "nyc": "11.1.0",
+        "mocha": "11.6.0",
+        "nyc": "17.1.0",
         "pm2": "2.10.1",
         "verdaccio": "3.12.0",
         "license-check-and-add": "2.3.6"

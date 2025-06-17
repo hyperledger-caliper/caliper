@@ -45,11 +45,11 @@
         "chai": "^4.4.1",
         "eslint": "^5.16.0",
         "license-check-and-add": "2.3.6",
-        "mocha": "^10.5.2",
+        "mocha": "^11.6.0",
         "mockery": "^2.1.0",
-        "nyc": "^17.0.0",
+        "nyc": "^17.1.0",
         "rewire": "^4.0.0",
-        "sinon": "^18.0.0",
+        "sinon": "^21.0.0",
         "sinon-chai": "^3.7.0"
     },
     "license-check-and-add-config": {

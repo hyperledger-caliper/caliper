@@ -30,9 +30,9 @@ let results = yargs
     .example('caliper bind\ncaliper unbind\ncaliper launch manager\ncaliper launch worker')
     .wrap(null)
     .epilogue('For more information on Hyperledger Caliper: https://hyperledger-caliper.github.io/caliper/')
-    .alias('version', 'v')
     .alias('help', 'h')
-    .version(version)
+    .version(version) // enabling the version command must come before its alias setting, otherwise -v will not work
+    .alias('version', 'v')
     .describe('version', 'Show version information')
     .describe('help', 'Show usage information')
     .strict(false)

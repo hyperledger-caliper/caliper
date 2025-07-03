@@ -235,8 +235,15 @@ class Config {
 
         this._config.use('memory');
 
+        // NOTE: pass an explcit yargs instance to nconf,
+        // so we can override its default parsing behavior,
+        // and turn off the --help command, so Caliper can handle it.
+        // The previous parameters can be set on the yargs instance.
+        let yargsInstace = require('yargs').help(false);
         // normalize the argument names to be more robust
-        this._config.argv({ parseValues: true, transform: normalizeSettingKey });
+        yargsInstace.transform = normalizeSettingKey;
+        yargsInstace.parseValues = true;
+        this._config.argv(yargsInstace);
 
         // normalize the argument names to be more robust
         this._config.env({ parseValues: true, transform: normalizeSettingKey });

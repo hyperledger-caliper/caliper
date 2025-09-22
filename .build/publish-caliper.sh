@@ -21,6 +21,11 @@ cp ./README.md ./packages/caliper-cli/README.md
 cp ./README.md ./packages/caliper-core/README.md
 cp ./README.md ./packages/caliper-fabric/README.md
 
+# distribute root package-lock file as npm-shrinkwrap file to packages before publishing
+cp ./package-lock.json ./packages/caliper-cli/npm-shrinkwrap.json
+cp ./package-lock.json ./packages/caliper-core/npm-shrinkwrap.json
+cp ./package-lock.json ./packages/caliper-fabric/npm-shrinkwrap.json
+
 cd ./packages/caliper-publish/
 npm ci
 # temporary workaround to downgrade npm in order to publish

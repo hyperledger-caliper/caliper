@@ -3,19 +3,22 @@ name: Publish
 on:
   workflow_call:
 
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
 jobs:
   publish-caliper:
     name: Publish Caliper
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Use Node.js 18.x
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: 18.x
+    # anchor to the smallest npm version supporting trusted publishing
+    - name: Update npm
+      run: npm install -g npm@11.5.1
     - name: Publish Caliper
       run: .build/publish-caliper.sh
-      env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
-        DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

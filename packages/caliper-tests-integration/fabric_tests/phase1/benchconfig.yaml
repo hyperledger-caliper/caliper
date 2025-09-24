@@ -12,23 +12,14 @@
 # limitations under the License.
 #
 
+# Phase#1 benchmark configuration, only the start command execution is tested, the content below is ignored
 ---
 test:
     workers:
         number: 2
     rounds:
-    - label: init1
+    - label: init
       txNumber: 100
       rateControl: { type: 'fixed-rate', opts: { tps: 20 } }
       workload:
         module: ./../init.js
-    - label: init2
-      txNumber: 200
-      rateControl: { type: 'fixed-feedback-rate', opts: { tps: 20, maximum_transaction_load: 5 } }
-      workload:
-        module: ./../init.js
-    - label: query
-      txNumber: 100
-      rateControl: { type: 'linear-rate', opts: { startingTps: 10, finishingTps: 20 } }
-      workload:
-        module: ./../query.js

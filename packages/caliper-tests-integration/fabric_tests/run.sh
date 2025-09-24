@@ -41,16 +41,32 @@ dispose () {
     popd
 }
 
+early_network_cleanup() {
+    echo "Cleaning up failed Fabric network setup..."
+    set +e
+    ./network.sh down
+    set -e
+}
+
+run_or_cleanup() {
+    if ! "$@"; then
+        local rc=$?
+        echo "Command '$*' failed."
+        early_network_cleanup
+        return $rc
+    fi
+}
+
 # Create Fabric network
 pushd ${TEST_NETWORK_DIR}
 # patch network.sh to workaround bug in fabric-samples script.
 sed -i "s|\[\[ \$len -lt 4 \]\]|\[\[ \$len -lt 3 \]\]|g" network.sh
-set -e
-./network.sh up -s couchdb
-./network.sh createChannel -c mychannel
-./network.sh createChannel -c yourchannel
-./network.sh deployCC -ccn mymarbles -c mychannel -ccp ${DIR}/src/marbles/go -ccl go -ccv v0 -ccep "OR('Org1MSP.member','Org2MSP.member')"
-./network.sh deployCC -ccn yourmarbles -c yourchannel -ccp ${DIR}/src/marbles/go -ccl go -ccv v0 -ccep "OR('Org1MSP.member','Org2MSP.member')"
+
+run_or_cleanup ./network.sh up -s couchdb || exit $?
+run_or_cleanup ./network.sh createChannel -c mychannel || exit $?
+run_or_cleanup ./network.sh createChannel -c yourchannel || exit $?
+run_or_cleanup ./network.sh deployCC -ccn mymarbles -c mychannel -ccp ${DIR}/src/marbles/go -ccl go -ccv v0 -ccep "OR('Org1MSP.member','Org2MSP.member')" || exit $?
+run_or_cleanup ./network.sh deployCC -ccn yourmarbles -c yourchannel -ccp ${DIR}/src/marbles/go -ccl go -ccv v0 -ccep "OR('Org1MSP.member','Org2MSP.member')" || exit $?
 set +e
 popd
 

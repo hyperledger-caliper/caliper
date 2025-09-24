@@ -15,6 +15,7 @@
 name: Fabric
 version: "2.0.0"
 
+# Phase#1 network configuration, only the start command execution is tested
 caliper:
     blockchain: fabric
     command:

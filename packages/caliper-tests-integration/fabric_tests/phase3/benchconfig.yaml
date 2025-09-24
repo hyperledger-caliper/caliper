@@ -12,35 +12,56 @@
 # limitations under the License.
 #
 
+# Phase#3 benchmark configuration, uses Fabric Gateway SDK, where the "targetOrganizations" attribute is available
+
 ---
 test:
     workers:
         number: 2
     rounds:
-    - label: init1
+    - label: init-no-targets-set
       txNumber: 100
       rateControl: { type: 'fixed-load',   opts: { "transactionLoad": 5, "startTps": 100 }}
       workload:
-          module: ./../init.js
-          arguments:
-              marblePrefix: marbles_phase_5
-    - label: query1
-      txNumber: 200
-      rateControl: { type: 'fixed-feedback-rate', opts: { tps: 20, maximum_transaction_load: 5 } }
-      workload:
-        module: ./queryByChannelNoTargetPeers.js
-    - label: init2
+        module: ./../init.js
+        arguments:
+          marblePrefix: marble_phase3
+          setTargetChannel: false
+          setTargetOrganizations: false
+    - label: init-target-channel-set
       txNumber: 25
       rateControl: { type: 'linear-rate', opts: { startingTps: 10, finishingTps: 20 } }
       workload:
-          module: ./../initByChannel.js
-          arguments:
-              marblePrefix: marbles_phase_5
-    - label: query2
+        module: ./../init.js
+        arguments:
+          marblePrefix: marble_phase3
+          setTargetChannel: true
+          setTargetOrganizations: false
+    - label: init-target-org-set
+      txNumber: 25
+      rateControl: { type: 'fixed-rate', opts: { tps: 5 } }
+      workload:
+        module: ./../init.js
+        arguments:
+          marblePrefix: marble_phase3
+          setTargetChannel: false
+          setTargetOrganizations: true
+    - label: query-no-targets-set
+      txNumber: 200
+      rateControl: { type: 'fixed-feedback-rate', opts: { tps: 20, maximum_transaction_load: 5 } }
+      workload:
+        module: ./../query.js
+        arguments:
+          setTargetChannel: false
+          setTargetOrganizations: false
+    - label: query-target-channel-set
       txNumber: 25
       rateControl: { type: 'linear-rate', opts: { startingTps: 5, finishingTps: 10 } }
       workload:
-        module: ./queryNoTargetPeers.js
+        module: ./../query.js
+        arguments:
+          setTargetChannel: true
+          setTargetOrganizations: true
 monitors:
     transaction:
     - module: prometheus-push

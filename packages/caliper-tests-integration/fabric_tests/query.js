@@ -27,6 +27,33 @@ class MarblesQueryWorkload extends WorkloadModuleBase {
         super();
         this.txIndex = -1;
         this.owners = ['Alice', 'Bob', 'Claire', 'David'];
+        this.setTargetChannel = false;
+        this.setTargetPeers = false;
+        this.setTargetOrganizations = false;
+    }
+
+    /**
+     * Initialize the workload module with the given parameters.
+     * @param {number} workerIndex The 0-based index of the worker instantiating the workload module.
+     * @param {number} totalWorkers The total number of workers participating in the round.
+     * @param {number} roundIndex The 0-based index of the currently executing round.
+     * @param {Object} roundArguments The user-provided arguments for the round from the benchmark configuration file.
+     * @param {ConnectorBase} sutAdapter The adapter of the underlying SUT.
+     * @param {Object} sutContext The custom context object provided by the SUT adapter.
+     * @async
+     */
+    async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArguments, sutAdapter, sutContext) {
+        await super.initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArguments, sutAdapter, sutContext);
+
+        this.setTargetChannel = !!this.roundArguments.setTargetChannel;
+
+        // setting target peers or orgs for queries should generate a warning in the Fabric connector
+        this.setTargetPeers = !!this.roundArguments.setTargetPeers;
+        this.setTargetOrganizations = !!this.roundArguments.setTargetOrganizations;
+
+        if (this.setTargetPeers && this.setTargetOrganizations) {
+            throw new Error(`Arguments "setTargetPeers" and "setTargetOrganizations" cannot be used together. Set the one appropriate for your Fabric SDK type.`);
+        }
     }
 
     /**
@@ -42,9 +69,21 @@ class MarblesQueryWorkload extends WorkloadModuleBase {
             contractFunction: 'queryMarblesByOwner',
             contractArguments: [marbleOwner],
             invokerIdentity: 'client0.org1.example.com',
-            targetPeers: ['peer0.org1.example.com'],
-            timeout: 10
+            timeout: 10,
+            readOnly: true
         };
+
+        if (this.setTargetChannel) {
+            args.channel = this.txIndex % 2 === 0 ? 'mychannel' : 'yourchannel';
+        }
+
+        if (this.setTargetPeers) {
+            args.targetPeers = this.txIndex % 2 === 0 ? ['peer0.org1.example.com'] : ['peer0.org2.example.com'];
+        }
+
+        if (this.setTargetOrganizations) {
+            args.targetOrganizations = this.txIndex % 2 === 0 ? ['Org1MSP'] : ['Org2MSP'];
+        }
 
         await this.sutAdapter.sendRequests(args);
     }

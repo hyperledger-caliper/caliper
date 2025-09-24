@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 env:
-  NPM_VERSION: 8.15.0
+  NPM_VERSION: 11.5.1
 
 jobs:
   changes:
@@ -44,7 +44,7 @@ jobs:
       fail-fast: false
       matrix:
         adaptor: ${{ fromJSON(needs.changes.outputs.adaptor) }}
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [22.x, 24.x]
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}

@@ -4,7 +4,7 @@
     "features": {
         "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
         "ghcr.io/devcontainers/features/node:1": {
-            "version": "lts"
+            "version": "v22.20.0"
         }
     },
     "customizations": {

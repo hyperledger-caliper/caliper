@@ -18,8 +18,8 @@
         "nyc": "nyc --reporter=text --reporter=clover mocha --recursive -t 10000"
     },
     "engines": {
-        "node": ">=18.19.0",
-        "npm": ">=6.14.16"
+        "node": ">=22",
+        "npm": ">=11.5.1"
     },
     "dependencies": {
         "@hyperledger/caliper-core": "0.6.1-unstable",

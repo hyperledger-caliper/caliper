@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 env:
-  NPM_VERSION: 8.15.0
+  NPM_VERSION: 11.5.1
 
 jobs:
   unit-tests:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [22.x, 24.x]
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -41,8 +41,9 @@ jobs:
     - name: Run unit tests
       run: npm test --workspaces
     - name: Upload coverage reports artifact
-      if: matrix.node-version == '18.x'
+      if: matrix.node-version == '22.x'
       uses: actions/upload-artifact@v4.4.0
       with:
         name: coverage-reports
         path: packages/*/coverage/clover.xml
+        if-no-files-found: warn

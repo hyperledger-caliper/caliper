@@ -12,7 +12,7 @@
 # limitations under the License.
 #
 
-FROM node:18.19-alpine
+FROM node:22-alpine
 
 # require to set these explicitly to avoid mistakes
 ARG npm_registry
@@ -34,10 +34,10 @@ RUN mkdir /home/node/.npm-global \
 
 # Set NODE_PATH to the global install directory, so the global Caliper core module can be required by external modules
 # https://nodejs.org/docs/latest-v10.x/api/modules.html#modules_loading_from_the_global_folders
-ENV NODE_PATH /home/node/.npm-global/lib/node_modules
-ENV PATH /home/node/.npm-global/bin:$PATH
-ENV CALIPER_WORKSPACE /hyperledger/caliper/workspace
-ENV CALIPER_BIND_ARGS -g
+ENV NODE_PATH=/home/node/.npm-global/lib/node_modules
+ENV PATH=/home/node/.npm-global/bin:$PATH
+ENV CALIPER_WORKSPACE=/hyperledger/caliper/workspace
+ENV CALIPER_BIND_ARGS=-g
 
 ENTRYPOINT ["caliper"]
 CMD ["--version"]

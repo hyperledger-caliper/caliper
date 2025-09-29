@@ -12,6 +12,8 @@
 # limitations under the License.
 #
 
+# Phase#2 network configuration, uses Fabric v2 SDK
+
 name: Fabric
 version: "2.0.0"
 

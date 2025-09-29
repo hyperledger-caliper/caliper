@@ -22,7 +22,7 @@ RED="$(tput setaf 1)"
 GREEN="$(tput setaf 2)"
 
 check_npm_version() {
-    required_version="7.24.2"
+    required_version="11.5.1"
     installed_version=$(npm --version)
     versions="$required_version\n$installed_version"
     if echo -e $versions | sort -rV | head -n 1 | grep -q "$installed_version"; then
@@ -36,7 +36,7 @@ check_npm_version() {
 }
 
 check_node_version() {
-    required_version="18.19.0"
+    required_version="22.20.0"
     installed_version=$(node --version | cut -c2-)
     versions="$required_version\n$installed_version"
     if echo -e $versions | sort -rV | head -n 1 | grep -q "$installed_version"; then

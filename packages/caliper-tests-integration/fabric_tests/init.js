@@ -28,6 +28,10 @@ class MarblesInitWorkload extends WorkloadModuleBase {
         this.txIndex = -1;
         this.colors = ['red', 'blue', 'green', 'black', 'white', 'pink', 'rainbow'];
         this.owners = ['Alice', 'Bob', 'Claire', 'David'];
+        this.marblePrefix = `marble`;
+        this.setTargetChannel = false;
+        this.setTargetPeers = false;
+        this.setTargetOrganizations = false;
     }
 
     /**
@@ -43,8 +47,14 @@ class MarblesInitWorkload extends WorkloadModuleBase {
     async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArguments, sutAdapter, sutContext) {
         await super.initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArguments, sutAdapter, sutContext);
 
-        if (!this.roundArguments.marblePrefix) {
-            throw new Error(`Argument "marblePrefix" is missing from benchmark configuration`);
+        // Use different keyspaces for benchmark phases because they share the same blockchain throughout the integration test phases
+        this.marblePrefix = this.roundArguments.marblePrefix ? this.roundArguments.marblePrefix : `marble_time_${Date.now()}`;
+        this.setTargetChannel = !!this.roundArguments.setTargetChannel;
+        this.setTargetPeers = !!this.roundArguments.setTargetPeers;
+        this.setTargetOrganizations = !!this.roundArguments.setTargetOrganizations;
+
+        if (this.setTargetPeers && this.setTargetOrganizations) {
+            throw new Error(`Arguments "setTargetPeers" and "setTargetOrganizations" cannot be used together. Set the one appropriate for your Fabric SDK type.`);
         }
     }
 
@@ -55,7 +65,7 @@ class MarblesInitWorkload extends WorkloadModuleBase {
     async submitTransaction() {
         this.txIndex++;
 
-        const marbleName = `${this.roundArguments.marblePrefix}_${this.roundIndex}_${this.workerIndex}_${this.txIndex}`;
+        const marbleName = `${this.marblePrefix}_${this.roundIndex}_${this.workerIndex}_${this.txIndex}`;
         let marbleColor = this.colors[this.txIndex % this.colors.length];
         let marbleSize = (((this.txIndex % 10) + 1) * 10).toString(); // [10, 100]
         let marbleOwner = this.owners[this.txIndex % this.owners.length];
@@ -68,6 +78,18 @@ class MarblesInitWorkload extends WorkloadModuleBase {
             timeout: 5,
             readOnly: false
         };
+
+        if (this.setTargetChannel) {
+            args.channel = this.txIndex % 2 === 0 ? 'mychannel' : 'yourchannel';
+        }
+
+        if (this.setTargetPeers) {
+            args.targetPeers = this.txIndex % 2 === 0 ? ['peer0.org1.example.com'] : ['peer0.org2.example.com'];
+        }
+
+        if (this.setTargetOrganizations) {
+            args.targetOrganizations = this.txIndex % 2 === 0 ? ['Org1MSP'] : ['Org2MSP'];
+        }
 
         await this.sutAdapter.sendRequests(args);
     }

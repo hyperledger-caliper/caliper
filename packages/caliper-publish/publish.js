@@ -27,9 +27,9 @@ let results = yargs
     .demandCommand(1, 1, 'Please specify a command to continue')
     .wrap(null)
     .strict()
+    .version(version) // enabling the version command must come before its alias setting, otherwise -v will not work
     .alias('version', 'v')
     .alias('help', 'h')
-    .version(version)
     .describe('version', 'Show version information')
     .describe('help', 'Show usage information')
     .argv;

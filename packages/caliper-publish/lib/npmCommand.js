@@ -25,7 +25,7 @@ module.exports.builder = yargs => {
             demand: false,
             default: '',
             type: 'string',
-            describe: 'The NPM registry address to use for publishing the packages. Defaults to the public NPM registry which requires NPM_TOKEN to be set.'
+            describe: 'The NPM registry address to use for publishing the packages. Defaults to the public NPM registry which requires trusted publishing to be configured.'
         },
         'dry-run': {
             alias: 'd',

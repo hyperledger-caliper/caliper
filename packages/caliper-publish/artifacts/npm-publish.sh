@@ -22,15 +22,8 @@ ARCH=`uname -m`
 
 if [[ -z "${NPM_REGISTRY}" ]]
 then
-    if [[ -z "${NPM_TOKEN}" ]]
-    then
-        echo "NPM_TOKEN must be set when publishing to the public NPM registry."
-        exit 1
-    else
-        # Set the NPM access token we will use to publish.
-        npm config set registry https://registry.npmjs.org/
-        npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-    fi
+    # Set the public NPM registry as default
+    npm config set registry https://registry.npmjs.org/
 fi
 
 npm publish --access public ${NPM_REGISTRY} ${DRY_RUN} --tag ${TAG}

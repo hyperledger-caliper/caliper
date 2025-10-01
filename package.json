@@ -6,6 +6,7 @@
         "type": "git",
         "url": "https://github.com/hyperledger-caliper/caliper"
     },
+    "private": true,
     "scripts": {
         "pretest": "npm run licchk --workspaces",
         "licchk": "license-check-and-add",

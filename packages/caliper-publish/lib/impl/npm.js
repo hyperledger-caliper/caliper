@@ -21,8 +21,7 @@ const utils = require('./../utils/cmdutils');
 const packages = [
     'caliper-core',
     'caliper-fabric',
-    'caliper-cli',
-    'generator-caliper'
+    'caliper-cli'
 ];
 
 // impl => lib => caliper-publish

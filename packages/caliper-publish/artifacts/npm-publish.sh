@@ -15,6 +15,7 @@
 
 # Exit on first error, print all commands.
 set -e
+set -x
 set -o pipefail
 
 # Set ARCH
@@ -23,7 +24,7 @@ ARCH=`uname -m`
 if [[ -z "${NPM_REGISTRY}" ]]
 then
     # Set the public NPM registry as default
-    npm config set registry https://registry.npmjs.org/
+    npm --workspaces=false config set registry https://registry.npmjs.org/
 fi
 
 npm publish --access public ${NPM_REGISTRY} ${DRY_RUN} --tag ${TAG}

@@ -4,7 +4,7 @@
     "version": "0.6.1-unstable",
     "repository": {
         "type": "git",
-        "url": "https://github.com/hyperledger-caliper/caliper",
+        "url": "git+https://github.com/hyperledger-caliper/caliper.git",
         "directory": "packages/caliper-core"
     },
     "publishConfig": {

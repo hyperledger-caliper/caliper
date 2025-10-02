@@ -2,6 +2,11 @@ name: Publish
 
 on:
   workflow_call:
+    secrets:
+      DOCKER_TOKEN:
+        required: true
+      DOCKER_USER:
+        required: true
 
 permissions:
   id-token: write  # Required for OIDC
@@ -22,3 +27,6 @@ jobs:
       run: npm install -g npm@11.5.1
     - name: Publish Caliper
       run: .build/publish-caliper.sh
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}

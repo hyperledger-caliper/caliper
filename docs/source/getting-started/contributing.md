@@ -85,10 +85,7 @@ The following workflow should make your contribution process clean and straighfo
 8. Implement and test your contribution
     * The `.build/checks-and-unit-tests.sh` script runs the basic tests for the repository
     * The `BENCHMARK=<test_name> .build/benchmark-integration-test-direct.sh` script can run one of the CI integration tests, depending on the value of `<test_name>`:
-        * `BESU`
-        * `ETHEREUM`
         * `FABRIC`
-        * `GENERATOR`
     > Make sure that the tests pass locally before pushing your changes and opening a PR!
 9. Commit your changes to your local feature branch, **adding the DCO sign-off**:
     * `git commit -s -m "Commit message"`
@@ -164,7 +161,6 @@ The [packages](https://github.com/hyperledger/caliper/tree/main/packages/) direc
 * [caliper-cli](https://github.com/hyperledger-caliper/caliper/tree/main/packages/caliper-cli/): The command line interface (CLI) of Caliper.
 * [caliper-core](https://github.com/hyperledger-caliper/caliper/tree/main/packages/caliper-core/): The core and common codebase of Caliper, used by the other packages.
 * [caliper-fabric](https://github.com/hyperledger-caliper/caliper/tree/main/packages/caliper-fabric/): The Hyperledger Fabric connector implementation.
-* [generator-caliper](https://github.com/hyperledger-caliper/caliper/tree/main/packages/generator-caliper/): The Yeaoman generator for Caliper configuration files.
 
 ### Internal packages
 

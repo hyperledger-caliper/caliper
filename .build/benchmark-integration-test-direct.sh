@@ -29,9 +29,6 @@ export CALL_METHOD="node $ROOT_DIR/packages/caliper-cli/caliper.js"
 # Use explicit binding for
 export BIND_IN_PACKAGE_DIR=true
 
-# Call the Generator code directly from source
-export GENERATOR_METHOD="yo $ROOT_DIR/packages/generator-caliper/generators/benchmark/index.js"
-
 # Create a directory outside of the source code tree to install SUT binding node modules
 # We have to do this otherwise npm will attempt to hoist the npm modules to a directory
 # which subsequently doesn't get searched

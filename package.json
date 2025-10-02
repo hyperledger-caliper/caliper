@@ -77,7 +77,6 @@
         "packages/caliper-fabric",
         "packages/caliper-cli",
         "packages/caliper-publish",
-        "packages/caliper-tests-integration",
-        "packages/generator-caliper"
+        "packages/caliper-tests-integration"
     ]
 }

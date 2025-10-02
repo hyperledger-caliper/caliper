@@ -141,7 +141,6 @@ nav:
     - Messengers: concepts/caliper-messengers.md
     - Runtime Configuration: concepts/runtime-config.md
     - Logging Control: concepts/logging-control.md
-    - Benchmark Generators: concepts/benchmark-generators.md
     - Declarative Workloads: concepts/declarative-workload-module.md
   - Connectors:
     - Fabric: connectors/fabric-config.md

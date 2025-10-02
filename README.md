@@ -1,7 +1,6 @@
-# ![Hyperledger Caliper](https://wiki.hyperledger.org/download/attachments/2392434/Hyperledger_Caliper_Logo_Color.svg?version=1&modificationDate=1548883186000&api=v2)
+# Hyperledger Caliper
 
-[![CI](https://github.com/hyperledger-caliper/caliper/actions/workflows/main.yml/badge.svg)](https://github.com/hyperledger-caliper/caliper/actions/workflows/main.yml)
-[![codecov](https://codecov.io/gh/hyperledger/caliper/branch/main/graph/badge.svg?token=rVFhTNrZBJ)](https://codecov.io/gh/hyperledger/caliper)
+[![CI](https://github.com/hyperledger-caliper/caliper/actions/workflows/main.yml/badge.svg)](https://github.com/hyperledger-caliper/caliper/actions/workflows/main.yml) <!-- The repo has been deactivated on the site [![codecov](https://codecov.io/gh/hyperledger/caliper/branch/main/graph/badge.svg?token=rVFhTNrZBJ)](https://codecov.io/gh/hyperledger/caliper) -->
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/2381/badge)](https://bestpractices.coreinfrastructure.org/projects/2381)
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/hyperledger-caliper/caliper/blob/main/LICENSE)
 [![node (scoped)](https://img.shields.io/node/v/@hyperledger/caliper-cli)](https://www.npmjs.com/package/@hyperledger/caliper-cli)
@@ -15,7 +14,7 @@ Welcome to the Hyperledger Caliper project. Caliper is a blockchain performance 
 
 Currently supported blockchain solutions:
 
-* [Hyperledger Fabric v1.X, v2.X](https://github.com/hyperledger/fabric)
+* [Hyperledger Fabric v2.X (Deprecated Network SDK, Gateway SDK)](https://github.com/hyperledger/fabric/tree/v2.5.13)
 
 Currently supported performance indicators:
 * Success rate
@@ -25,10 +24,9 @@ Currently supported performance indicators:
 
 See the [PSWG white paper](https://www.hyperledger.org/learn/publications/blockchain-performance-metrics) to find out the definitions and corresponding measurement methods.
 
-For more information on using Caliper, please consult the [documentation site](https://hyperledger-caliper.github.io/caliper/)
-
 ## Configuration and usage
-See the [related documentation page](https://hyperledger-caliper.github.io/caliper/).
+
+For information on using Caliper, please consult the [documentation site](https://hyperledger-caliper.github.io/caliper/).
 
 ## How to contact us
 

@@ -75,5 +75,4 @@ jobs:
         BENCHMARK: ${{ matrix.adaptor }}
         CALL_METHOD: "node ${{ github.workspace }}/packages/caliper-cli/caliper.js"
         BIND_IN_PACKAGE_DIR: "true"
-        GENERATOR_METHOD: "yo ${{ github.workspace }}/packages/generator-caliper/generators/benchmark/index.js"
         SUT_DIR: "/tmp/sut"

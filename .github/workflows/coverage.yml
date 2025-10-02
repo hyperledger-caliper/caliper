@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [caliper-core, caliper-fabric, generator-caliper]
+        package: [caliper-core, caliper-fabric]
     steps:
     - uses: actions/checkout@v3
     - name: Download coverage reports artifact

@@ -20,7 +20,7 @@ fi
 echo "## $2 ($(date))\n" >> CHANGELOG.new
 echo "### Notable\n\n" >> CHANGELOG.new
 echo "### Commits\n" >> CHANGELOG.new
-git log $1..HEAD  --oneline | grep -v Merge | sed -e "s/\([0-9|a-z]*\)/* \[\1\](https:\/\/github.com\/hyperledger\/caliper\/commit\/\1)/" >> CHANGELOG.new
+git log $1..HEAD  --oneline | grep -v Merge | sed -e "s/\([0-9|a-z]*\)/* \[\1\](https:\/\/github.com\/hyperledger-caliper\/caliper\/commit\/\1)/" >> CHANGELOG.new
 echo "" >> CHANGELOG.new
 cat CHANGELOG.md >> CHANGELOG.new
 mv -f CHANGELOG.new CHANGELOG.md

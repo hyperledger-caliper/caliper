@@ -13,4 +13,6 @@ jobs:
   publish-caliper:
     uses: ./.github/workflows/publish.yml
     needs: unit-tests
-    secrets: inherit
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}

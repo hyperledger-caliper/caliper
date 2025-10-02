@@ -1,3 +1,92 @@
+## 0.7.0 (Fri Oct 3 00:56:33 CEST 2025)
+
+### Notable
+
+* **Feature**:
+  * Updated published packages to Node.JS v22
+  * Updated NPM publishing method to trusted publishing
+  * Added dev-container definition to repo
+  * Migrated documentation site to LFDT template
+* **Breaking**
+  * Removed Ethereum and Besu support
+  * Removed Fabric v1.x support
+
+
+### Commits
+
+* [bacbdf3a](https://github.com/hyperledger-caliper/caliper/commit/bacbdf3a) chore(generator)!: Remove generator package and related artifacts (#1719)
+* [0e0c9998](https://github.com/hyperledger-caliper/caliper/commit/0e0c9998) Make workflow secret passing and usage explicit (#1717)
+* [cc6d5522](https://github.com/hyperledger-caliper/caliper/commit/cc6d5522) fix: NPM publishing with workspaces (#1714) (#1715)
+* [d87b9e09](https://github.com/hyperledger-caliper/caliper/commit/d87b9e09) fix: Remove NPM token check from publishing script (#1712)
+* [bc25342d](https://github.com/hyperledger-caliper/caliper/commit/bc25342d) fix: update node versions for CI, npm and docker publishing; fix Fabric CI (#1711)
+* [6cf00116](https://github.com/hyperledger-caliper/caliper/commit/6cf00116) chore: update to OIDC (#1709)
+* [810cc17d](https://github.com/hyperledger-caliper/caliper/commit/810cc17d) Add npm-shrinkwrap.json file and distribute it during publishing (#1708)
+* [fd1c3bad](https://github.com/hyperledger-caliper/caliper/commit/fd1c3bad) Fix CLI behavior with help and version commands (#1705)
+* [c02c225f](https://github.com/hyperledger-caliper/caliper/commit/c02c225f) Remove repolinter as it's not used (#1704)
+* [8a840b34](https://github.com/hyperledger-caliper/caliper/commit/8a840b34) fail if chaincode deployment fails (#1703)
+* [6c30d20b](https://github.com/hyperledger-caliper/caliper/commit/6c30d20b) integration builds broken (#1702)
+* [1c6b559b](https://github.com/hyperledger-caliper/caliper/commit/1c6b559b) update js-yaml (#1701)
+* [67025686](https://github.com/hyperledger-caliper/caliper/commit/67025686) update mocha, nyc, sinon so they are all consistent (#1699)
+* [d9d351b1](https://github.com/hyperledger-caliper/caliper/commit/d9d351b1) Add some extra unit tests to common/core (#1698)
+* [a4d7fe43](https://github.com/hyperledger-caliper/caliper/commit/a4d7fe43) Remove reference to Node 18 as it is now out of LTS (#1697)
+* [72444997](https://github.com/hyperledger-caliper/caliper/commit/72444997) minor fix to faq around tps (#1695)
+* [d4b07663](https://github.com/hyperledger-caliper/caliper/commit/d4b07663) Distinguish more between network config and caliper config (#1691)
+* [20ee96c7](https://github.com/hyperledger-caliper/caliper/commit/20ee96c7) Remove support for fabric node sdk 1.4 (#1689)
+* [0342fcb1](https://github.com/hyperledger-caliper/caliper/commit/0342fcb1) Bump golang.org/x/net (#1687)
+* [55c5832d](https://github.com/hyperledger-caliper/caliper/commit/55c5832d) Bump golang.org/x/net (#1683)
+* [a1f8edba](https://github.com/hyperledger-caliper/caliper/commit/a1f8edba) Remove ethereum and besu support (#1685)
+* [2e1345f4](https://github.com/hyperledger-caliper/caliper/commit/2e1345f4) Bump golang.org/x/net (#1679)
+* [86bc38a3](https://github.com/hyperledger-caliper/caliper/commit/86bc38a3) Bump golang.org/x/net (#1678)
+* [30be8f61](https://github.com/hyperledger-caliper/caliper/commit/30be8f61) Update contributing.md (#1674)
+* [719b6612](https://github.com/hyperledger-caliper/caliper/commit/719b6612) corrected the caliper documentation link (#1673)
+* [5246025e](https://github.com/hyperledger-caliper/caliper/commit/5246025e) Fix refactored core structure references (#1671)
+* [1f66ab17](https://github.com/hyperledger-caliper/caliper/commit/1f66ab17) update test (#1670)
+* [a1d4c320](https://github.com/hyperledger-caliper/caliper/commit/a1d4c320) Fix a bug in caliper engine (#1669)
+* [f5e5b55b](https://github.com/hyperledger-caliper/caliper/commit/f5e5b55b) Update the release process for docs (#1668)
+* [9107f009](https://github.com/hyperledger-caliper/caliper/commit/9107f009) Add information about BFT consensus in docs for fabric (#1663)
+* [48434c22](https://github.com/hyperledger-caliper/caliper/commit/48434c22) add logo back in (#1662)
+* [19d46db2](https://github.com/hyperledger-caliper/caliper/commit/19d46db2) fix: throughput faq (#1656)
+* [42708e46](https://github.com/hyperledger-caliper/caliper/commit/42708e46) fix: record rate doc section (#1653)
+* [42c1fe5f](https://github.com/hyperledger-caliper/caliper/commit/42c1fe5f) add more test for recordRate rate-controller (#1627)
+* [3661a0e7](https://github.com/hyperledger-caliper/caliper/commit/3661a0e7) add test for internal-tx-observer module (#1629)
+* [67be1b7e](https://github.com/hyperledger-caliper/caliper/commit/67be1b7e) Minor changes to tutorial navigation (#1658)
+* [c84417d1](https://github.com/hyperledger-caliper/caliper/commit/c84417d1) feat: updated github links (#1651)
+* [fb552190](https://github.com/hyperledger-caliper/caliper/commit/fb552190) fix tutorial section link (#1657)
+* [c042c7da](https://github.com/hyperledger-caliper/caliper/commit/c042c7da) removed unwanted line (#1652)
+* [ddedaf32](https://github.com/hyperledger-caliper/caliper/commit/ddedaf32) Minor doc fixes (#1655)
+* [3fd4c0c3](https://github.com/hyperledger-caliper/caliper/commit/3fd4c0c3) Add support for Node 22 LTS (#1650)
+* [cc0ada40](https://github.com/hyperledger-caliper/caliper/commit/cc0ada40) add dev container for vscode (#1643)
+* [5617b012](https://github.com/hyperledger-caliper/caliper/commit/5617b012) add more test for fixedFeedbackRate controller implementation (#1628)
+* [ade355f1](https://github.com/hyperledger-caliper/caliper/commit/ade355f1) add test for caliper-engine module (#1638)
+* [6082edec](https://github.com/hyperledger-caliper/caliper/commit/6082edec) add test for test-logging-tx-observer (#1630)
+* [aa11adf0](https://github.com/hyperledger-caliper/caliper/commit/aa11adf0) docs: update links to point to new website URL (#1646)
+* [334dd2ab](https://github.com/hyperledger-caliper/caliper/commit/334dd2ab) add test to improve coverage report of caliper worker test coverage (#1625)
+* [ecbe3c61](https://github.com/hyperledger-caliper/caliper/commit/ecbe3c61) fixed packages err (#1642)
+* [13b87100](https://github.com/hyperledger-caliper/caliper/commit/13b87100) add test for the message handling behavior (#1626)
+* [7504fab4](https://github.com/hyperledger-caliper/caliper/commit/7504fab4) Fix contributing.md (#1636)
+* [baca4cf8](https://github.com/hyperledger-caliper/caliper/commit/baca4cf8) added contributing guide (#1634)
+* [f222853a](https://github.com/hyperledger-caliper/caliper/commit/f222853a) add test for more tests for prometheus transaction observer (#1631)
+* [54dd1bc1](https://github.com/hyperledger-caliper/caliper/commit/54dd1bc1) Bump express from 4.19.2 to 4.20.0 (#1632)
+* [134ae972](https://github.com/hyperledger-caliper/caliper/commit/134ae972) Remove old CI tests not used anymore (#1620)
+* [47be99af](https://github.com/hyperledger-caliper/caliper/commit/47be99af) Bump google.golang.org/protobuf (#1618)
+* [3c6b7395](https://github.com/hyperledger-caliper/caliper/commit/3c6b7395) update upload/download artifact actions to fix build (#1623)
+* [0e01238f](https://github.com/hyperledger-caliper/caliper/commit/0e01238f) Create v0.6.0 documentation using Hyperledger template (#1605)
+* [10fee8e7](https://github.com/hyperledger-caliper/caliper/commit/10fee8e7) remove declarative code (#1615)
+* [9e80ce7e](https://github.com/hyperledger-caliper/caliper/commit/9e80ce7e) update express dependency (#1614)
+* [6daae6ce](https://github.com/hyperledger-caliper/caliper/commit/6daae6ce) Bump golang.org/x/net (#1611)
+* [ddb853db](https://github.com/hyperledger-caliper/caliper/commit/ddb853db) Bump google.golang.org/protobuf (#1610)
+* [bf2a625b](https://github.com/hyperledger-caliper/caliper/commit/bf2a625b) update semver and fabric gateway versions (#1612)
+* [1c5b280c](https://github.com/hyperledger-caliper/caliper/commit/1c5b280c) Update Marbles to match fabric 2.5 (#1608)
+* [a8a32d48](https://github.com/hyperledger-caliper/caliper/commit/a8a32d48) Bump test libraries to latest (#1598)
+* [5ab2b073](https://github.com/hyperledger-caliper/caliper/commit/5ab2b073) restructure all test folders to match the library they test so it is easy to locate corresponding tests (#1599)
+* [08f732a4](https://github.com/hyperledger-caliper/caliper/commit/08f732a4) Add fixed-load rate controller to calliper generator (#1592)
+* [8ec4e00e](https://github.com/hyperledger-caliper/caliper/commit/8ec4e00e) Address test flake due to timing (#1595)
+* [b97c4b33](https://github.com/hyperledger-caliper/caliper/commit/b97c4b33) Add Support for Org targeting to peer gateway (#1582)
+* [44b3c524](https://github.com/hyperledger-caliper/caliper/commit/44b3c524) Address use/reference of startingTps where not correct (#1578)
+* [56ecafa0](https://github.com/hyperledger-caliper/caliper/commit/56ecafa0) remove vscode extension (#1569)
+* [6c899ade](https://github.com/hyperledger-caliper/caliper/commit/6c899ade) `caliper-core`: add tests for `Message` classes (#1561)
+* [21a98f49](https://github.com/hyperledger-caliper/caliper/commit/21a98f49) Bump to 0.6.1-unstable (#1565)
+
 ## 0.6.0 (Wed  1 May 11:13:41 BST 2024)
 
 ### Notable

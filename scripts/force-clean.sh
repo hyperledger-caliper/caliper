@@ -21,5 +21,3 @@ rm -rf ./packages/caliper-core/node_modules
 rm -rf ./packages/caliper-fabric/node_modules
 rm -rf ./packages/caliper-publish/node_modules
 rm -rf ./packages/caliper-tests-integration/node_modules
-
-git checkout -- ./packages/caliper-fabric/package.json

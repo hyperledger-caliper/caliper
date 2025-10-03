@@ -1,6 +1,6 @@
 {
     "name": "caliper-tests-integration",
-    "version": "0.6.1-unstable",
+    "version": "0.7.0",
     "private": true,
     "description": "Integration tests for Hyperledger Caliper",
     "engines": {
@@ -35,9 +35,9 @@
         "license-check-and-add": "2.3.6"
     },
     "dependencies": {
-        "@hyperledger/caliper-cli": "0.6.1-unstable",
-        "@hyperledger/caliper-core": "0.6.1-unstable",
-        "@hyperledger/caliper-fabric": "0.6.1-unstable"
+        "@hyperledger/caliper-cli": "0.7.0",
+        "@hyperledger/caliper-core": "0.7.0",
+        "@hyperledger/caliper-fabric": "0.7.0"
     },
     "license-check-and-add-config": {
         "folder": ".",

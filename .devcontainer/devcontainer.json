@@ -2,7 +2,9 @@
     "name": "Caliper Development",
     "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11",
     "features": {
-        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+            "moby": false
+        },
         "ghcr.io/devcontainers/features/node:1": {
             "version": "v22.20.0"
         }

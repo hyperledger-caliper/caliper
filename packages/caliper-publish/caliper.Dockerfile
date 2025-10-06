@@ -13,13 +13,11 @@
 #
 
 FROM node:22-alpine
+RUN npm install -g npm@latest
 
 # require to set these explicitly to avoid mistakes
 ARG npm_registry
 ARG caliper_version
-
-# Install packages for dependency compilation
-RUN apk add --no-cache python3 g++ make git
 
 # execute as the "node" user, created in the base image
 USER node:node

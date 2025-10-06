@@ -35,7 +35,7 @@ Create a folder named **caliper-workspace** at the same level as the **fabric-sa
 Caliper installation and use will be based on a local npm installation. Within the **caliper-workspace** directory, install caliper CLI using the following terminal command:
 
 ```sh
-npm install --only=prod @hyperledger/caliper-cli@0.6.0
+npm install --only=prod @hyperledger/caliper-cli@0.7.1
 ```
 
 Bind the SDK using the following terminal command:

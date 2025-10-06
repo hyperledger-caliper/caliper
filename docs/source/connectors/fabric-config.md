@@ -84,7 +84,7 @@ peers:
 Caliper has it's on configuration file and contains configuration options which have an effect on the fabric adapter.
 These runtime properties can be set through Caliper’s [runtime configuration mechanism](../concepts/runtime-config.md). Note that this caliper runtime configuration file is a different file to the network configuration file discussed later.
 
-For the available settings, see the `caliper.fabric` section of the [default configuration file](https://github.com/hyperledger-caliper/caliper/blob/v0.6.0/packages/caliper-core/lib/common/config/default.yaml) and its embedded documentation.
+For the available settings, see the `caliper.fabric` section of the [default configuration file](https://github.com/hyperledger-caliper/caliper/blob/v0.7.1/packages/caliper-core/lib/common/config/default.yaml) and its embedded documentation.
 
 The above settings are processed when starting Caliper. Modifying them during testing will have no effect. However, you can override the default values *before Caliper* starts from the usual configuration sources. In the following example the `localhost` property applies only when binding with Fabric 2.2.
 
@@ -117,11 +117,11 @@ See the [corresponding documentation](../concepts/workload-module.md/#initialize
 
 The last argument of the function is a `sutContext` object, which is a platform-specific object provided by the backend blockchain’s connector. The context object provided by this connector is a `FabricConnectorContext` instance but this doesn’t provide anything of use at this time.
 
-For the current details/documentation of the API, refer to the [source code](https://github.com/hyperledger-caliper/caliper/blob/v0.6.0/packages/caliper-fabric/lib/FabricConnectorContext.js).
+For the current details/documentation of the API, refer to the [source code](https://github.com/hyperledger-caliper/caliper/blob/v0.7.1/packages/caliper-fabric/lib/FabricConnectorContext.js).
 
 ### The `submitTransaction` function
 
-The `sutAdapter` object received (and saved) in the `initializeWorkloadModule` function is of type `[ConnectorInterface](https://github.com/hyperledger-caliper/caliper/blob/v0.6.0/packages/caliper-core/lib/common/core/connector-interface.js)`. Its `getType()` function returns the `fabric` string value.
+The `sutAdapter` object received (and saved) in the `initializeWorkloadModule` function is of type `[ConnectorInterface](https://github.com/hyperledger-caliper/caliper/blob/v0.7.1/packages/caliper-core/lib/common/core/connector-interface.js)`. Its `getType()` function returns the `fabric` string value.
 
 The `sendRequests` method of the connector API allows the workload module to submit requests to the SUT. It takes a single parameter: an object or array of objects containing the settings of the requests.
 
@@ -158,7 +158,7 @@ await this.sutAdapter.sendRequests(requestSettings);
 
 ## Gathered TX data
 
-The previously discussed `sendRequests` function returns the result (or an array of results) for the submitted request(s) with the type of [TxStatus](https://github.com/hyperledger-caliper/caliper/blob/v0.6.0/packages/caliper-core/lib/common/core/transaction-status.js). The class provides some standard and platform-specific information about its corresponding transaction.
+The previously discussed `sendRequests` function returns the result (or an array of results) for the submitted request(s) with the type of [TxStatus](https://github.com/hyperledger-caliper/caliper/blob/v0.7.1/packages/caliper-core/lib/common/core/transaction-status.js). The class provides some standard and platform-specific information about its corresponding transaction.
 
 The standard data provided are the following:
 - `GetID():string` returns the transaction ID.

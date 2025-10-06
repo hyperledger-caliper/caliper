@@ -22,9 +22,13 @@ cp ./README.md ./packages/caliper-core/README.md
 cp ./README.md ./packages/caliper-fabric/README.md
 
 # distribute root package-lock file as npm-shrinkwrap file to packages before publishing
-cp ./package-lock.json ./packages/caliper-cli/npm-shrinkwrap.json
-cp ./package-lock.json ./packages/caliper-core/npm-shrinkwrap.json
-cp ./package-lock.json ./packages/caliper-fabric/npm-shrinkwrap.json
+# We can't do this because caliper-cli declares dependencies on caliper-core and caliper-fabric 
+# and the packaged shrinkwrap for caliper-cli will not be correct to resolve them as package-lock.json
+# is mono-repo aware but the published packages won't understand it in shrinkwrap.json so will create
+# invalid references. Doing this would force everyone to have to install all 3 packages manually.
+#cp ./package-lock.json ./packages/caliper-cli/npm-shrinkwrap.json
+#cp ./package-lock.json ./packages/caliper-core/npm-shrinkwrap.json
+#cp ./package-lock.json ./packages/caliper-fabric/npm-shrinkwrap.json
 
 cd ./packages/caliper-publish/
 npm ci

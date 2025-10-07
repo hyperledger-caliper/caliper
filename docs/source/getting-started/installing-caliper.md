@@ -40,7 +40,7 @@ The entry point of the CLI is the `caliper` binary. You can confirm whether the 
 
 ```sh
 user@ubuntu:~/caliper-benchmarks$ npx caliper --version
-v0.6.0
+v0.7.1
 ```
 
 The CLI provides multiple commands to perform different tasks. To check the available commands and their descriptions, execute:
@@ -227,7 +227,7 @@ But why is all this important to you? Because Caliper is still in its pre-releas
 
 Let’s see the three types of version numbers you will encounter:
 
-- `0.6.0`: Version numbers of this form denote releases deemed *stable* by the maintainers. Such versions have a corresponding GitHub tag, both in the `caliper` and `caliper-benchmarks` repositories. Moreover, the latest stable version is documented by the matching version of the documentation page. So make sure to align the different versions if you run into some issue.
+- `0.7.1`: Version numbers of this form denote releases deemed *stable* by the maintainers. Such versions have a corresponding GitHub tag, both in the `caliper` and `caliper-benchmarks` repositories. Moreover, the latest stable version is documented by the matching version of the documentation page. So make sure to align the different versions if you run into some issue.
 - `0.6.1-unstable-20240422122901`: Such version “numbers” denote unstable releases that are published upon every merged pull request (hence the timestamp at the end), and eventually will become a stable version, e.g., `0.6.1`. This way you always have access to the NPM (and Docker) artifacts pertaining to the `main` branch of the repository. Let’s find and fix the bugs of new features before they make it to the stable release!
 - `unstable`: This is the very latest unstable release that has been published and would correspond to a version also published as `0.6.1-unstable-<some date>`. This lets you quickly work with the very latest code from the `main` branch.
 
@@ -250,14 +250,14 @@ The following tools may be required depending on which SUT and version you bind 
 
     *this is the highly recommended way to install Caliper for your project. Keeping the project dependencies local makes it easier to setup multiple Caliper projects. Global dependencies would require re-binding every time before a new benchmark run (to ensure the correct global dependencies).*
 
-1. Install the Caliper CLI as you would any other NPM package. It is highly recommended to explicitly specify the version number, e.g., `@hyperledger/caliper-cli@0.6.0`
+1. Install the Caliper CLI as you would any other NPM package. It is highly recommended to explicitly specify the version number, e.g., `@hyperledger/caliper-cli@0.7.1`
 2. Bind the CLI to the required platform SDK (e.g., `fabric` with the `fabric-gateway` SDK).
 3. Invoke the local CLI binary (using [npx](https://www.npmjs.com/package/npx)) with the appropriate parameters. You can repeat this step for as many benchmarks as you would like.
 
 Putting it all together:
 
 ```sh
-user@ubuntu:~/caliper-benchmarks$ npm install --only=prod @hyperledger/caliper-cli@0.6.0
+user@ubuntu:~/caliper-benchmarks$ npm install --only=prod @hyperledger/caliper-cli@0.7.1
 user@ubuntu:~/caliper-benchmarks$ npx caliper bind --caliper-bind-sut fabric:fabric-gateway
 user@ubuntu:~/caliper-benchmarks$ npx caliper launch manager \
     --caliper-workspace . \
@@ -268,7 +268,7 @@ user@ubuntu:~/caliper-benchmarks$ npx caliper launch manager \
 We could also perform the binding automatically when launching the manager process (note the extra parameter for `caliper launch manager`):
 
 ```sh
-user@ubuntu:~/caliper-benchmarks$ npm install --only=prod @hyperledger/caliper-cli@0.6.0
+user@ubuntu:~/caliper-benchmarks$ npm install --only=prod @hyperledger/caliper-cli@0.7.1
 user@ubuntu:~/caliper-benchmarks$ npx caliper launch manager \
     --caliper-bind-sut fabric:fabric-gateway \
     --caliper-workspace . \
@@ -298,7 +298,7 @@ There are some minor differences compared to the local install:
 4. You can omit the `npx` command, since `caliper` will be in your `PATH`.
 
 ```sh
-user@ubuntu:~$ npm install -g --only=prod @hyperledger/caliper-cli@0.6.0
+user@ubuntu:~$ npm install -g --only=prod @hyperledger/caliper-cli@0.7.1
 user@ubuntu:~$ caliper bind --caliper-bind-sut fabric:2.2 --caliper-bind-args=-g
 user@ubuntu:~$ caliper launch manager \
     --caliper-workspace ~/caliper-benchmarks \
@@ -342,7 +342,7 @@ Parts of starting a Caliper container (following the recommendations above):
 
 !!! note
 
-    *the **latest** tag is **not supported**, i.e, you explicitly have to specify the image version you want: hyperledger/caliper:0.6.0, similar to the recommended approach for the [NPM packages](#versioning-semantics).*
+    *the **latest** tag is **not supported**, i.e, you explicitly have to specify the image version you want: hyperledger/caliper:0.7.1, similar to the recommended approach for the [NPM packages](#versioning-semantics).*
 
 Putting it all together, split into multiple lines for clarity, and naming the container `caliper`:
 
@@ -352,7 +352,7 @@ user@ubuntu:~/caliper-benchmarks$ docker run \
     -e CALIPER_BIND_SUT=fabric:fabric-gateway \
     -e CALIPER_BENCHCONFIG=benchmarks/scenario/simple/config.yaml \
     -e CALIPER_NETWORKCONFIG=networks/fabric/test-network.yaml \
-    --name caliper hyperledger/caliper:0.6.0 launch manager
+    --name caliper hyperledger/caliper:0.7.1 launch manager
 ```
 
 !!! note
@@ -369,7 +369,7 @@ version: '2'
 services:
     caliper:
         container_name: caliper
-        image: hyperledger/caliper:0.6.0
+        image: hyperledger/caliper:0.7.1
         command: launch manager
         environment:
         - CALIPER_BIND_SUT=fabric:fabric-gateway

@@ -1,7 +1,7 @@
 {
     "name": "@hyperledger/caliper-cli",
     "description": "Hyperledger Caliper CLI, for convenience running of a performance benchmark to test blockchain technologies",
-    "version": "0.7.1-unstable",
+    "version": "0.7.1",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/hyperledger-caliper/caliper.git",
@@ -26,8 +26,8 @@
         "npm": ">=11.5.1"
     },
     "dependencies": {
-        "@hyperledger/caliper-core": "0.7.1-unstable",
-        "@hyperledger/caliper-fabric": "0.7.1-unstable",
+        "@hyperledger/caliper-core": "0.7.1",
+        "@hyperledger/caliper-fabric": "0.7.1",
         "yargs": "15.3.1"
     },
     "devDependencies": {

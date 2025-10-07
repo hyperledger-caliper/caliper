@@ -1,3 +1,15 @@
+## 0.7.1 (Tue Oct  7 18:28:12 BST 2025)
+
+### Notable
+* This release fixes the broken 0.7.0 release
+
+### Commits
+
+* [a18150ae](https://github.com/hyperledger-caliper/caliper/commit/a18150ae) Caliper 0.7.0 is very broken (#1729)
+* [782d005d](https://github.com/hyperledger-caliper/caliper/commit/782d005d) chore: update CODEOWNERS
+* [073b956d](https://github.com/hyperledger-caliper/caliper/commit/073b956d) chore: Bump to 0.8.0-unstable version
+* [6a59dc6e](https://github.com/hyperledger-caliper/caliper/commit/6a59dc6e) Fix dev container (#1722)
+
 ## 0.7.0 (Fri Oct 3 00:56:33 CEST 2025)
 
 ### Notable

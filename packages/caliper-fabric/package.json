@@ -1,7 +1,7 @@
 {
     "name": "@hyperledger/caliper-fabric",
     "description": "Hyperledger Fabric connector for Caliper, enabling the running of performance benchmarks that interact with Fabric",
-    "version": "0.7.1",
+    "version": "0.7.2-unstable",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/hyperledger-caliper/caliper.git",
@@ -22,7 +22,7 @@
         "npm": ">=11.5.1"
     },
     "dependencies": {
-        "@hyperledger/caliper-core": "0.7.1",
+        "@hyperledger/caliper-core": "0.7.2-unstable",
         "semver": "7.5.2"
     },
     "devDependencies": {

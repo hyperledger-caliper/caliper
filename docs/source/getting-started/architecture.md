@@ -93,7 +93,7 @@ The Caliper manager process is the orchestrator of the entire benchmark run. It 
 4. In the fourth stage Caliper schedules and executes the configured rounds through the worker processes. This is the stage where the workload generation happens (through the workers!).
 5. In the last stage, after executing the rounds and generating the report, Caliper executes the cleanup script (if present) from the network configuration file. This step is mainly useful for local Caliper and SUT deployments as it provides a convenient way to tear down the network and any temporary artifacts.
 
-If your SUT is already deployed an initialized, then you only need Caliper to execute the rounds and nothing else. Luckily, you can configure every stage one-by-one whether it should be executed or not. See the [flow control settings](../concepts/runtime-config.md#benchmark-phase-settings) for details.
+If your SUT is already deployed and initialized, then you only need Caliper to execute the rounds and nothing else. Luckily, you can configure every stage one-by-one whether it should be executed or not. See the [flow control settings](../concepts/runtime-config.md#benchmark-phase-settings) for details.
 
 The above figure only shows the high-level steps of executing a benchmark. Some components are omitted for the sake of simplicity, like the resource and transaction monitor components. To learn more about the purpose and configuration of these components, refer to the [Resource and Transaction Monitors](../concepts/caliper-monitors.md) documentation page.
 
